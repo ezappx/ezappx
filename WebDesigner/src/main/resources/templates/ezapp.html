@@ -1,0 +1,49 @@
+<html lang='en' xmlns:th='http://www.thymeleaf.org'>
+<head>
+    <link rel='stylesheet' th:href='@{/css/grapes.min.css}'>
+    <script th:src='@{/js/grapes.min.js}'></script>
+    <script th:src='@{/js/get-remote-data.min.js}'></script>
+    <script th:src='@{/js/grapesjs-blocks-basic.min.js}'></script>
+    <script th:src='@{/js/grapesjs-plugin-export.min.js}'></script>
+    <script th:src='@{/js/jquery-3.3.1.min.js}'></script>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div id="gjs" style="height:0px; overflow:hidden"></div>
+
+<script type="text/javascript">
+    var editor = grapesjs.init({
+        height: '100%',
+        showOffsets: 1,
+        noticeOnUnload: 0,
+        storageManager: {autoload: 0},
+        container: '#gjs',
+        fromElement: true,
+
+        plugins: ['get-remote-data', 'gjs-blocks-basic', 'gjs-plugin-export'],
+        pluginsOpts: {
+            'get-remote-data': {},
+            'gjs-plugin-export': {
+                btnLabel: 'EXPORT',
+                preHtml: `
+                <!doctype><html><head>
+                <link rel="stylesheet" href="./css/style.css">
+                </head><body>
+                `
+            }
+        },
+        canvas: {
+            styles: ['css/weui.min.css'],
+            scripts: ['js/jquery-3.3.1.min.js']
+        }
+    });
+    window.editor = editor;
+</script>
+</body>
