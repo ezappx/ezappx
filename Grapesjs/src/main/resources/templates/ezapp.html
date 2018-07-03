@@ -1,0 +1,71 @@
+<html lang='en'>
+<head>
+    <link rel='stylesheet' href="http://cdn.ezapp.ingbyr.com/css/grapes.min.css">
+    <script src="http://cdn.ezapp.ingbyr.com/js/grapes.js"></script>
+    <script src="http://cdn.ezapp.ingbyr.com/js/jquery-3.3.1.min.js"></script>
+
+    <script src="http://cdn.ezapp.ingbyr.com/js/grapesjs-blocks-basic.min.js"></script>
+    <script src="http://cdn.ezapp.ingbyr.com/js/grapesjs-plugin-export.min.js"></script>
+    <script src="http://cdn.ezapp.ingbyr.com/js/grapesjs-code-editor.min.js"></script>
+
+    <script src="http://cdn.ezapp.ingbyr.com/js/ezapp-plugin-ajax.min.js"></script>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div id="gjs" style="height:0px; overflow:hidden"></div>
+
+<script type="text/javascript">
+    let editor = grapesjs.init({
+        height: '100%',
+        showOffsets: 1,
+        noticeOnUnload: 0,
+        storageManager: {autoload: 0},
+        container: '#gjs',
+        fromElement: true,
+
+        plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'gjs-plugin-export'],
+        pluginsOpts: {
+        },
+        canvas: {
+            styles: ['http://cdn.ezapp.ingbyr.com/css/weui.min.css'],
+            scripts: ['http://cdn.ezapp.ingbyr.com/js/jquery-3.3.1.min.js']
+        },
+        commands: {
+            defaults: [
+                window['grapesjs-code-editor'].codeCommand,
+            ],
+        },
+        panels: window['grapesjs-code-editor'].panels
+    });
+    window.editor = editor;
+
+    editor.Commands.add('canvas-clear', function () {
+        if (confirm('确认清除画布?')) {
+            var comps = editor.DomComponents.clear();
+            setTimeout(function () {
+                localStorage.clear()
+            }, 0)
+        }
+    });
+
+    var pn = editor.Panels;
+    pn.addButton('options', {
+        id: 'open-info',
+        className: 'fa fa-trash',
+        command: function () {
+            editor.runCommand('canvas-clear')
+        },
+        attributes: {
+            'title': 'About',
+            'data-tooltip-pos': 'bottom',
+        },
+    });
+</script>
+</body>

@@ -1,3 +1,4 @@
 rootProject.name = 'Ezapp'
-include 'WebDesigner'
+include 'Grapesjs'
+include 'MobileInstallerBuilder'
 
