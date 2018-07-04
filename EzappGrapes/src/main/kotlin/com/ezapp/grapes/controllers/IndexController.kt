@@ -1,4 +1,4 @@
-package com.ezapp.webdesigner.controllers
+package com.ezapp.grapes.controllers
 
 import org.apache.commons.logging.LogFactory
 import org.springframework.stereotype.Controller
@@ -15,6 +15,6 @@ class IndexController {
     fun index(model: Model): String {
         log.debug("rendering index html")
         model["title"] = "Ezapp"
-        return "ezapp"
+        return "EzappGrapes"
     }
 }

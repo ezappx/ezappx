@@ -1,4 +1,4 @@
-package com.ezapp.webdesigner
+package com.ezapp.grapes
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
