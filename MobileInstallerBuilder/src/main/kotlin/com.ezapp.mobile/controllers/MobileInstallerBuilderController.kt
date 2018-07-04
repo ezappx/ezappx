@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/mobile")
+@RequestMapping("/api/v1/")
 class MobileInstallerBuilderController {
     private val log = LogFactory.getLog(MobileInstallerBuilderController::class.java)
 
@@ -42,7 +42,7 @@ class MobileInstallerBuilderController {
             "callBackApi":"http://localhost"
         }
     """)
-    @RequestMapping("/build/android", method = [RequestMethod.POST])
+    @RequestMapping("/android/build", method = [RequestMethod.POST])
     fun buildAndroidMobileInstaller(@RequestBody androidBuilderConfig: Map<String, Any>) {
         log.debug("build android installer ...")
         log.debug(androidBuilderConfig)

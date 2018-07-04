@@ -3,12 +3,10 @@
     <link rel='stylesheet' href="http://cdn.ezapp.ingbyr.com/css/grapes.min.css">
     <script src="http://cdn.ezapp.ingbyr.com/js/grapes.js"></script>
     <script src="http://cdn.ezapp.ingbyr.com/js/jquery-3.3.1.min.js"></script>
-
     <script src="http://cdn.ezapp.ingbyr.com/js/grapesjs-blocks-basic.min.js"></script>
-    <script src="http://cdn.ezapp.ingbyr.com/js/grapesjs-plugin-export.min.js"></script>
-    <script src="http://cdn.ezapp.ingbyr.com/js/grapesjs-code-editor.min.js"></script>
 
     <script src="http://cdn.ezapp.ingbyr.com/js/ezapp-plugin-ajax.min.js"></script>
+    <script src="http://cdn.ezapp.ingbyr.com/js/ezapp-plugin-export.min.js"></script>
     <style>
         body,
         html {
@@ -26,23 +24,18 @@
         height: '100%',
         showOffsets: 1,
         noticeOnUnload: 0,
-        storageManager: {autoload: 0},
+        storageManager: {
+            autoload: true
+        },
         container: '#gjs',
         fromElement: true,
 
-        plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'gjs-plugin-export'],
-        pluginsOpts: {
-        },
+        plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'ezapp-plugin-export'],
+        pluginsOpts: {},
         canvas: {
             styles: ['http://cdn.ezapp.ingbyr.com/css/weui.min.css'],
             scripts: ['http://cdn.ezapp.ingbyr.com/js/jquery-3.3.1.min.js']
-        },
-        commands: {
-            defaults: [
-                window['grapesjs-code-editor'].codeCommand,
-            ],
-        },
-        panels: window['grapesjs-code-editor'].panels
+        }
     });
     window.editor = editor;
 
@@ -55,7 +48,7 @@
         }
     });
 
-    var pn = editor.Panels;
+    let pn = editor.Panels;
     pn.addButton('options', {
         id: 'open-info',
         className: 'fa fa-trash',
@@ -67,5 +60,15 @@
             'data-tooltip-pos': 'bottom',
         },
     });
+
+    let deviceManager = editor.DeviceManager;
+
+    deviceManager.add('Android', '300px', {
+        height: '600px',
+        width: '300px'
+    });
+    editor.setDevice('Android');
+
+    window.editor = editor;
 </script>
 </body>
