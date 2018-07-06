@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component
 @ConfigurationProperties(prefix = "com.ezapp.mobile.builder")
 class MobileBuilderProperties {
     lateinit var android: String
+    lateinit var ios: String
 }
