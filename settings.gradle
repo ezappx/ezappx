@@ -1,4 +1,4 @@
 rootProject.name = 'Ezapp'
-include 'EzappGrapes'
-include 'MobileInstallerBuilder'
+include 'EzappxWeb'
+include 'EzappxBuilder'
 
