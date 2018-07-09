@@ -7,7 +7,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.apache.commons.logging.LogFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -38,7 +37,10 @@ class ExportController(private val mobileBuilderProperties: MobileBuilderPropert
         log.debug("remote mobile builder: $remoteMobileInstallerBuilderApi")
 
         return try {
-            postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
+//            postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
+            log.debug("post fake data")
+            TmpResponse("post to $remoteMobileInstallerBuilderApi")
+
         } catch (e: Exception) {
             log.error("can not post to $remoteMobileInstallerBuilderApi")
             log.error(e)

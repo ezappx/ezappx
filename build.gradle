@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = "1.2.50"
+        kotlinVersion = "1.2.51"
         springBootVersion = "2.0.2.RELEASE"
     }
 
@@ -41,10 +41,10 @@ subprojects {
         compile('com.fasterxml.jackson.module:jackson-module-kotlin')
         compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         compile("org.jetbrains.kotlin:kotlin-reflect")
-        compile('org.springframework.boot:spring-boot-starter-data-jpa')
-        runtime("com.h2database:h2")
-        testCompile('org.springframework.boot:spring-boot-starter-test')
+        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
         compile("org.springframework.boot:spring-boot-configuration-processor")
+
+        testCompile('org.springframework.boot:spring-boot-starter-test')
     }
 
     compileKotlin {
