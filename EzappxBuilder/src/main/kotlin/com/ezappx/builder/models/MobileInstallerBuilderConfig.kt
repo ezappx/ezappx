@@ -1,5 +1,8 @@
 package com.ezappx.builder.models
 
+import io.swagger.annotations.ApiModel
+
+@ApiModel(value = "打包配置", description = "通过第三方POST获取")
 data class MobileInstallerBuilderConfig(
         var uuid: String,
         var mobileOS: String,
