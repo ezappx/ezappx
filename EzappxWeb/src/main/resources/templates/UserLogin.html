@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="http://cdn.ezappx.com/js/jquery-3.3.1.min.js"></script>
+    <script src="http://cdn.ezappx.com/js/popper.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <title>Ezappx登陆</title>
+</head>
+<body>
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <form th:action="@{/login}" th:object="${user}" method="post" class="col-12">
+            <div class="form-group">
+                <label for="loginUsername">用户名</label>
+                <input type="text" class="form-control" id="loginUsername" placeholder="输入用户名" th:field="*{username}">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">密码</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="输入密码"
+                       th:field="*{password}">
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary">登陆</button>
+                <a th:href="@{/register}" class="btn btn-secondary">新用户注册</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
