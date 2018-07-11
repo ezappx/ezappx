@@ -5,7 +5,7 @@ import com.ezappx.web.repositories.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(val userRepository: UserRepository) {
+class EzappUserService(val userRepository: UserRepository) {
 
     fun login(user: User): Boolean {
         return if (user.username != null && user.password != null && user.username.isNotBlank() && user.password.isNotBlank()) {

@@ -1,8 +1,10 @@
 package com.ezappx.web.controllers
 
 import com.ezappx.web.models.User
-import com.ezappx.web.services.UserService
+import com.ezappx.web.services.EzappUserService
 import org.apache.commons.logging.LogFactory
+import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -11,32 +13,26 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 
 @Controller
-class UserController(private val userService: UserService) {
+class UserController(private val userService: EzappUserService) {
     private val log = LogFactory.getLog(UserController::class.java)
 
     @GetMapping("/")
     fun index(model: Model): String {
-        // TODO verify the session
-        return "redirect:/login"
+        return "redirect:/designer"
     }
 
     @GetMapping("/login")
     fun login(model: Model): String {
-        model["user"] = User()
-        return "UserLogin"
-    }
-
-    @PostMapping("/login")
-    fun loginSubmit(@ModelAttribute user: User): String {
-        return if (userService.login(user)) {
-            "redirect:/designer"
-        } else "redirect:/login"
+        val auth = SecurityContextHolder.getContext().authentication
+        return if (auth is AnonymousAuthenticationToken)
+            "login"
+        else "redirect:/designer"
     }
 
     @GetMapping("/register")
     fun register(model: Model): String {
         model["user"] = User()
-        return "UserRegister"
+        return "register"
     }
 
     @PostMapping("/register")

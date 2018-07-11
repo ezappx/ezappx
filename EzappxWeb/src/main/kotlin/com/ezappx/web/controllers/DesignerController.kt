@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-class EzappxWebController {
+class DesignerController {
 
     @RequestMapping("/designer")
-    fun ezappxWeb(): String {
+    fun designer(): String {
         // TODO verify the session
-        return "EzappxWeb"
+        return "designer"
     }
 }
