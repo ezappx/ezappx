@@ -14,30 +14,39 @@
 <body>
 <div class="container h-100">
     <div class="row h-100 justify-content-center align-items-center">
-        <form th:action="@{/register}" th:object="${user}" method="post" class="center-form col-8 p-4">
-            <div class="form-group">
-                <label for="loginUsername" class="text-white">用户名</label>
-                <input type="text" class="form-control" id="loginUsername" placeholder="输入用户名" th:field="*{username}">
+
+        <div class="card" style="width: 30rem">
+            <div class="card-header">
+                Ezappx注册
             </div>
-            <div class="form-group">
-                <label for="loginEmail" class="text-white">邮箱地址</label>
-                <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="输入邮箱"
-                       th:field="*{email}">
-                <small id="emailHelp" class="form-text text-muted">邮箱将被保密</small>
+            <div class="card-body">
+                <form th:action="@{/register}" th:object="${user}" method="post" class="center-form">
+                    <div class="form-group">
+                        <label for="loginUsername" >用户名</label>
+                        <input type="text" class="form-control" id="loginUsername" placeholder="输入用户名" th:field="*{username}">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginEmail">邮箱地址</label>
+                        <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="输入邮箱"
+                               th:field="*{email}">
+                        <small id="emailHelp" class="form-text text-muted">邮箱将被保密</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword" >密码</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="输入密码"
+                               th:field="*{password}">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">同意Ezapp用户协议</label>
+                    </div>
+                    <div class="row m-auto">
+                        <button type="submit" class="btn btn-primary">注册</button>
+                        <a th:href="@{/login}" class="btn btn-secondary ml-3">返回登陆</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="loginPassword" class="text-white">密码</label>
-                <input type="password" class="form-control" id="loginPassword" placeholder="输入密码"
-                       th:field="*{password}">
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label text-white" for="exampleCheck1">同意Ezapp用户协议</label>
-            </div>
-            <div class="row m-auto">
-                <button type="submit" class="btn btn-primary">注册</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 </body>

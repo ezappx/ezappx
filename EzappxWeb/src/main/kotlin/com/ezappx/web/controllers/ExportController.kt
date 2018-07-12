@@ -37,10 +37,7 @@ class ExportController(private val mobileBuilderProperties: MobileBuilderPropert
         log.debug("remote mobile builder: $remoteMobileInstallerBuilderApi")
 
         return try {
-//            postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
-            log.debug("post fake data")
-            TmpResponse("post to $remoteMobileInstallerBuilderApi")
-
+            postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
         } catch (e: Exception) {
             log.error("can not post to $remoteMobileInstallerBuilderApi")
             log.error(e)

@@ -1,10 +1,6 @@
 package com.ezappx.web.models
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.springframework.data.annotation.Id
-
 data class MobileBuilder(
-        @Id @JsonIgnore val id: String,
         var uuid: String,
         var mobileOS: String,
         var customHTMLFiles: List<CustomHTMLFiles>,
