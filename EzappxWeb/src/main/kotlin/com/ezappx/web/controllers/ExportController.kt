@@ -1,34 +1,30 @@
 package com.ezappx.web.controllers
 
+import com.ezappx.web.models.ExportResponse
 import com.ezappx.web.models.MobileBuilder
 import com.ezappx.web.models.MobileBuilderProperties
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.ezappx.web.services.ExportService
 import org.apache.commons.logging.LogFactory
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.context.request.async.WebAsyncTask
+import java.util.concurrent.Callable
 
 @RestController
 @RequestMapping("/mobile")
 class ExportController(private val mobileBuilderProperties: MobileBuilderProperties,
-                       private val mapper: ObjectMapper,
-                       private val restTemplate: RestTemplate) {
+                       private val exportService: ExportService) {
 
     private val log = LogFactory.getLog(ExportController::class.java)
-
 
     /**
      * 发送打包请求前的预处理
      */
     @RequestMapping("/export", method = [RequestMethod.POST])
-    fun collectResources(@RequestBody mobileBuilderJson: String): TmpResponse {
-        val exportConfig = mapper.readValue<MobileBuilder>(mobileBuilderJson)
+    fun export(@RequestBody exportConfig: MobileBuilder): WebAsyncTask<ExportResponse> {
+        log.debug(exportConfig)
         val remoteMobileInstallerBuilderApi = when (exportConfig.mobileOS.toUpperCase()) {
             "ANDROID" -> mobileBuilderProperties.android
             "IOS" -> mobileBuilderProperties.ios
@@ -36,26 +32,24 @@ class ExportController(private val mobileBuilderProperties: MobileBuilderPropert
         }
         log.debug("remote mobile builder: $remoteMobileInstallerBuilderApi")
 
-        return try {
-            postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
-        } catch (e: Exception) {
-            log.error("can not post to $remoteMobileInstallerBuilderApi")
-            log.error(e)
-            TmpResponse("cannot post to $remoteMobileInstallerBuilderApi")
+        //TODO timeout is not reasonable
+        val webAsyncTask = WebAsyncTask<ExportResponse>(3000, Callable {
+            exportService.postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
+        })
+
+        webAsyncTask.onCompletion {
+            log.debug("completed")
         }
-    }
 
-    /**
-     * POST打包配置JSON到远程打包服务器
-     */
-    private fun postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi: String, exportConfig: MobileBuilder): TmpResponse {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-        val entity = HttpEntity(ObjectMapper().writeValueAsString(exportConfig), headers)
-        val response = restTemplate.postForObject(remoteMobileInstallerBuilderApi, entity, TmpResponse::class.java)
-        log.debug(response)
-        return response ?: TmpResponse("no response from remote server")
-    }
+        webAsyncTask.onTimeout {
+            log.error("time out")
+            ExportResponse("post to $remoteMobileInstallerBuilderApi time out")
+        }
 
-    data class TmpResponse(val status: String)
+        webAsyncTask.onError {
+            log.error("post error")
+            ExportResponse("cannot post to $remoteMobileInstallerBuilderApi")
+        }
+        return webAsyncTask
+    }
 }

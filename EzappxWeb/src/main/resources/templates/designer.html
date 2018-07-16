@@ -1,4 +1,4 @@
-<html lang='en'>
+<html lang='en' xmlns:th='http://www.thymeleaf.org'>
 <head>
     <link rel='stylesheet' href="http://cdn.ezappx.com/css/grapes.min.css">
     <script src="http://cdn.ezappx.com/js/grapes.js"></script>
@@ -20,7 +20,7 @@
 <body>
 <div id="gjs" style="height:0px; overflow:hidden"></div>
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     let editor = grapesjs.init({
         height: '100%',
         showOffsets: 1,
@@ -32,7 +32,11 @@
         fromElement: true,
 
         plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'ezapp-plugin-export'],
-        pluginsOpts: {},
+        pluginsOpts: {
+            'ezapp-plugin-export': {
+                username: /*[[${username}]]*/ 'test-user'
+            }
+        },
         canvas: {
             styles: ['http://cdn.ezappx.com/css/weui.min.css'],
             scripts: ['http://cdn.ezappx.com/js/jquery-3.3.1.min.js']
@@ -42,7 +46,7 @@
 
     editor.Commands.add('canvas-clear', function () {
         if (confirm('确认清除画布?')) {
-            var comps = editor.DomComponents.clear();
+            editor.DomComponents.clear();
             setTimeout(function () {
                 localStorage.clear()
             }, 0)
