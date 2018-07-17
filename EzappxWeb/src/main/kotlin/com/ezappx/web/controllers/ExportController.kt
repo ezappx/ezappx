@@ -1,10 +1,11 @@
 package com.ezappx.web.controllers
 
 import com.ezappx.web.models.ExportResponse
-import com.ezappx.web.models.MobileBuilder
-import com.ezappx.web.models.MobileBuilderProperties
+import com.ezappx.web.models.MobileBuilderConfig
+import com.ezappx.web.property.MobileBuilderProperties
 import com.ezappx.web.services.ExportService
 import org.apache.commons.logging.LogFactory
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -23,7 +24,7 @@ class ExportController(private val mobileBuilderProperties: MobileBuilderPropert
      * 发送打包请求前的预处理
      */
     @RequestMapping("/export", method = [RequestMethod.POST])
-    fun export(@RequestBody exportConfig: MobileBuilder): WebAsyncTask<ExportResponse> {
+    fun export(@RequestBody exportConfig: MobileBuilderConfig, authentication: Authentication): WebAsyncTask<ExportResponse> {
         log.debug(exportConfig)
         val remoteMobileInstallerBuilderApi = when (exportConfig.mobileOS.toUpperCase()) {
             "ANDROID" -> mobileBuilderProperties.android
@@ -34,7 +35,8 @@ class ExportController(private val mobileBuilderProperties: MobileBuilderPropert
 
         //TODO timeout is not reasonable
         val webAsyncTask = WebAsyncTask<ExportResponse>(3000, Callable {
-            exportService.postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
+            exportService.saveExportConfig2DB(authentication.name, exportConfig)
+//            exportService.postMobileInstallerBuilderConfig(remoteMobileInstallerBuilderApi, exportConfig)
         })
 
         webAsyncTask.onCompletion {

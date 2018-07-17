@@ -1,6 +1,6 @@
 package com.ezappx.web.models
 
-data class MobileBuilder(
+data class MobileBuilderConfig(
         var uuid: String,
         var mobileOS: String,
         var customHTMLFiles: List<CustomHTMLFiles>,
