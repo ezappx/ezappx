@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  use-forward-headers: true
+
+spring:
+  banner:
+    charset: UTF-8
+    location: banner.txt
+  data:
+    mongodb:
+      host: 10.109.252.77
+      port: 27017
+      database: ezappx
+  devtools:
+    livereload:
+      enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.ezappx: DEBUG
+
+ezappx:
+  builder:
+    android: http://localhost:8081/api/v1/android/build-installer
+    ios: http://localhost:8081/api/v1/ios/build-installer
+

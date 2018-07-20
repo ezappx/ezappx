@@ -1,9 +1,6 @@
-package com.ezappx.builder.models
+package com.ezappx.web.models
 
-import io.swagger.annotations.ApiModel
-
-@ApiModel(value = "打包配置", description = "通过第三方POST获取")
-data class MobileInstallerBuilderConfig(
+data class MobileAppBuilderConfig(
         var uuid: String,
         var mobileOS: String,
         var customHTMLFiles: List<CustomHTMLFiles>,
@@ -16,8 +13,3 @@ data class CustomHTMLFiles(var filename: String, var content: String)
 data class CustomCSSFiles(var filename: String, var content: String)
 
 data class DependentFiles(var css: List<String>, var js: List<String>)
-
-enum class AvailableMobileOS {
-    ANDROID,
-    IOS
-}

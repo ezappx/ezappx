@@ -1,4 +1,4 @@
-package com.ezappx.web.security
+package com.ezappx.web.services
 
 import com.ezappx.web.repositories.UserRepository
 import org.apache.commons.logging.LogFactory
@@ -23,7 +23,7 @@ class EzappUserDetailService : UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails {
         val user = userRepository.findByUsername(username!!).firstOrNull()
         if (user != null) {
-//            log.debug(user)
+            log.debug("user logged as $user")
             return User(username, user.password, listOf(SimpleGrantedAuthority("ROLE_USER")))
         } else throw UsernameNotFoundException("$username not found")
     }

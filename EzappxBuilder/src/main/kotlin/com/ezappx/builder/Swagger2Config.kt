@@ -22,9 +22,9 @@ class Swagger2Config {
             .build()
 
     private fun apiInfo() = ApiInfoBuilder()
-            .title("Mobile Installer Builder Rest API")
-            .description("Ezapp移动应用打包API测试")
-            .termsOfServiceUrl("http://ezapp.ingbyr.com")
+            .title("Ezappx Builder")
+            .description("Ezappx移动应用打包API")
+            .termsOfServiceUrl("http://www.ezappx.com")
             .version("1.0.0")
             .build()
 }

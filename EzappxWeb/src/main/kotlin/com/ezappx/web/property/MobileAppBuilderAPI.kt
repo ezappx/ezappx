@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
 
 @Component
-@ConfigurationProperties(prefix = "com.ezapp.mobile.builder")
-class MobileBuilderProperties {
+@ConfigurationProperties(prefix = "ezappx.builder")
+class MobileAppBuilderAPI {
     lateinit var android: String
     lateinit var ios: String
 }

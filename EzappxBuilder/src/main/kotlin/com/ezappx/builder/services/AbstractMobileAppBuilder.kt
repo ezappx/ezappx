@@ -1,12 +1,11 @@
 package com.ezappx.builder.services
 
-import com.ezappx.builder.models.AvailableMobileOS
 import org.apache.commons.logging.LogFactory
 import java.nio.file.Paths
 
-abstract class AbstractMobileInstallerBuilder {
+abstract class AbstractMobileAppBuilder {
     companion object {
-        val log = LogFactory.getLog(AbstractMobileInstallerBuilder::class.java)
+        val log = LogFactory.getLog(AbstractMobileAppBuilder::class.java)
         val CORDOVA = "cordova"
         val BASE_DIR = Paths.get(System.getProperty("user.dir"))
 
@@ -14,7 +13,6 @@ abstract class AbstractMobileInstallerBuilder {
     }
 
     var projectId: String? = null
-    var mobileOS: AvailableMobileOS? = null
 
     abstract fun initProject()
     abstract fun addPlatform()

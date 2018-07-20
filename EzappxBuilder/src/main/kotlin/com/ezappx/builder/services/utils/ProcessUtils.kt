@@ -10,7 +10,7 @@ object ProcessUtils {
         read(process.errorStream, System.err)
     }
 
-    fun read(inputStream: InputStream, out: PrintStream) {
+    private fun read(inputStream: InputStream, out: PrintStream) {
         try {
             val reader = BufferedReader(InputStreamReader(inputStream))
             var line: String? = reader.readLine()

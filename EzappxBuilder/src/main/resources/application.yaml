@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    root: INFO
+    com.ezappx: DEBUG
+
+spring:
+  data:
+    mongodb:
+      host: 10.109.252.77
+      port: 27017
+      database: ezappx
+
+  devtools:
+    livereload:
+      enabled: false

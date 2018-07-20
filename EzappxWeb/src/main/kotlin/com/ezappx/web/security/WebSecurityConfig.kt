@@ -1,5 +1,6 @@
 package com.ezappx.web.security
 
+import com.ezappx.web.services.EzappUserDetailService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -17,7 +18,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun userDetailsService() = EzappUserDetailService()
 
     override fun configure(http: HttpSecurity?) {
-        //FIXME 内置的TOMCAT在返回地址时默认localhost，导致nginx代理失败
         http!!.csrf().disable()
         http.authorizeRequests()
                 .antMatchers("/", "/register").permitAll()

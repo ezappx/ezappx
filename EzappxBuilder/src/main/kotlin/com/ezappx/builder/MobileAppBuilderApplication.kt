@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MobileInstallerBuilderApplication
+class MobileAppBuilderApplication
 
 fun main(args: Array<String>) {
-    runApplication<MobileInstallerBuilderApplication>(*args)
+    runApplication<MobileAppBuilderApplication>(*args)
 }

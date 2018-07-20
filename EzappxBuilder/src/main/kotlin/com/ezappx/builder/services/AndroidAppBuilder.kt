@@ -2,7 +2,7 @@ package com.ezappx.builder.services
 
 import com.ezappx.builder.services.utils.ProcessUtils
 
-class AndroidInstallerBuilder : AbstractMobileInstallerBuilder() {
+class AndroidInstallerBuilder : AbstractMobileAppBuilder() {
 
     override fun initProject() {
         log.info("init cordova project at $BASE_DIR ...")
