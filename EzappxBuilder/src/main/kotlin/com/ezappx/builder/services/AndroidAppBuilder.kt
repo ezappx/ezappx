@@ -1,26 +1,25 @@
 package com.ezappx.builder.services
 
-import com.ezappx.builder.services.utils.ProcessUtils
+import com.ezappx.builder.utils.Cordova
+import java.nio.file.Paths
 
-class AndroidInstallerBuilder : AbstractMobileAppBuilder() {
+class AndroidAppBuilder : AbstractMobileAppBuilder() {
 
     override fun initProject() {
-        log.info("init cordova project at $BASE_DIR ...")
-        val processBuilder = ProcessBuilder(CORDOVA, "create", projectId, DEFAULT_PACKAGE, projectId)
-        processBuilder.inheritIO()
-        processBuilder.directory(BASE_DIR.toFile())
-        val process = processBuilder.start()
-        ProcessUtils.readProcessOutput(process)
-        process.waitFor()
-        log.info("initialization finished")
+        processUtil.execInDir = userProjectDir.toFile()
+        info("init ezappx-cordova project")
+        processUtil.exec(Cordova.create(project.projectName, projectPackage, project.projectName))
     }
 
     override fun addPlatform() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        debug("add platform")
+        processUtil.exec(Cordova.addPlatform(project.mobileOS))
     }
 
     override fun addCordovaPlugins() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        for (plugin in project.cordovaPlugins) {
+            processUtil.exec(Cordova.addPlugin(plugin))
+        }
     }
 
     override fun addCodeResources() {
@@ -28,17 +27,20 @@ class AndroidInstallerBuilder : AbstractMobileAppBuilder() {
     }
 
     override fun build() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        debug("build app project")
+        processUtil.exec(Cordova.build(project.mobileOS))
     }
 
-    override fun installerUrl() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun installerFile() = Paths.get(userProjectDir.toString(), "platforms", "android", "build", "outputs", "apk", "android-debug.apk")!!
 }
 
-fun androidInstallerBuilder(init: AndroidInstallerBuilder.() -> Unit): AndroidInstallerBuilder {
-    val aib = AndroidInstallerBuilder()
-    aib.init()
-    aib.initProject()
-    return aib
+fun androidBuilder(init: AndroidAppBuilder.() -> Unit): AndroidAppBuilder {
+    val androidAppBuilder = AndroidAppBuilder()
+    androidAppBuilder.init()
+    androidAppBuilder.initBuilderEnv()
+    androidAppBuilder.initProject()
+    androidAppBuilder.addPlatform()
+    androidAppBuilder.addCordovaPlugins()
+    androidAppBuilder.build()
+    return androidAppBuilder
 }

@@ -16,9 +16,8 @@ class MobileAppBuilderService(private val mobileAppProjectRepository: MobileAppP
         val oldMobileAppProject = mobileAppProjectRepository.findByUsernameAndProjectName(mobileAppProject.username, mobileAppProject.projectName).firstOrNull()
         if (oldMobileAppProject != null) {
             // 更新数据库已有内容
-            oldMobileAppProject.updatedAt = mobileAppProject.updatedAt
-            oldMobileAppProject.mobileProjectContent = mobileAppProject.mobileProjectContent
-            mobileAppProjectRepository.save(oldMobileAppProject)
+            mobileAppProject.id = oldMobileAppProject.id
+            mobileAppProjectRepository.save(mobileAppProject)
             log.debug("update mobile app project in db")
         } else {
             //新增到数据库
