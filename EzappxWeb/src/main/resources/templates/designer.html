@@ -30,16 +30,19 @@
         },
         container: '#gjs',
         fromElement: true,
-
         plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'ezapp-plugin-export'],
         pluginsOpts: {
             'ezapp-plugin-export': {
-                username: /*[[${username}]]*/ 'test-user'
+                username: /*[[${username}]]*/ 'test-user',
+                projectName: /*[[${username}]]*/ 'test-project',
             }
         },
         canvas: {
             styles: ['http://cdn.ezappx.com/css/weui.min.css'],
             scripts: ['http://cdn.ezappx.com/js/jquery-3.3.1.min.js']
+        },
+        assetManager: {
+            upload: 'http://localhost:8080/mobile/uploader'
         }
     });
     window.editor = editor;

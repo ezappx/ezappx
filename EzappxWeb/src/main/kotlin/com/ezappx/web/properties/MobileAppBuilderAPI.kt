@@ -1,4 +1,4 @@
-package com.ezappx.web.property
+package com.ezappx.web.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component

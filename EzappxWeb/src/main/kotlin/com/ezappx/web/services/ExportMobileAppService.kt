@@ -1,8 +1,8 @@
 package com.ezappx.web.services
 
-import com.ezappx.web.models.MobileAppBuilderResponse
+import com.ezappx.web.responses.MobileAppBuilderResponse
 import com.ezappx.web.models.MobileAppProject
-import com.ezappx.web.property.MobileAppBuilderAPI
+import com.ezappx.web.properties.MobileAppBuilderAPI
 import com.ezappx.web.repositories.UserProjectRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.logging.LogFactory
@@ -29,7 +29,7 @@ class ExportMobileAppService(private val restTemplate: RestTemplate,
         headers.contentType = MediaType.APPLICATION_JSON
         val entity = HttpEntity(ObjectMapper().writeValueAsString(mobileAppProject), headers)
         val response = restTemplate.postForObject(
-                resolveRemoteBuilderServerApi(mobileAppProject.mobileAppBuilderConfig?.mobileOS),
+                resolveRemoteBuilderServerApi(mobileAppProject.mobileOS),
                 entity,
                 MobileAppBuilderResponse::class.java)
         log.debug(response)
@@ -44,23 +44,4 @@ class ExportMobileAppService(private val restTemplate: RestTemplate,
         "IOS" -> mobileAppBuilderAPI.ios
         else -> throw IllegalArgumentException("not supported mobile OS $targetMobileOS")
     }
-
-//    /**
-//     * 保存导出配置到数据库
-//     */
-//    private fun saveUserProject2DB(mobileAppProject: MobileAppProject) {
-//        val query = Query().addCriteria(Criteria.where("username").`is`(mobileAppProject.username))
-//        val oldUserProject = mongoOperations.findOne(query, MobileAppProject::class.java)
-//        if (oldUserProject != null) {
-//            // 更新数据库已有内容
-//            oldUserProject.createdAt = LocalDateTime.now()
-//            oldUserProject.mobileAppBuilderConfig = mobileAppProject.mobileAppBuilderConfig
-//            mongoOperations.save(oldUserProject)
-//            log.debug("update use project in db")
-//        } else {
-//            // 否则新建实体
-//            userProjectRepository.save(mobileAppProject)
-//            log.debug("create and save user project in db")
-//        }
-//    }
 }

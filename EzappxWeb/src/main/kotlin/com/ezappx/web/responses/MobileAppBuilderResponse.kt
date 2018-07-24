@@ -1,3 +1,3 @@
-package com.ezappx.web.models
+package com.ezappx.web.responses
 
 data class MobileAppBuilderResponse(val status: String)

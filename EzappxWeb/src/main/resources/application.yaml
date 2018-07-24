@@ -24,4 +24,6 @@ ezappx:
   builder:
     android: http://localhost:8081/api/v1/android/build-installer
     ios: http://localhost:8081/api/v1/ios/build-installer
+  file:
+    uploadDir: ./UserProjects/Uploads
 
