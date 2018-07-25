@@ -22,8 +22,8 @@ logging:
 
 ezappx:
   builder:
-    android: http://localhost:8081/api/v1/android/build-installer
-    ios: http://localhost:8081/api/v1/ios/build-installer
+    android: http://localhost:8081/api/v1/android/build
+    ios: http://localhost:8081/api/v1/ios/build
   file:
     uploadDir: ./UserProjects/Uploads
 

@@ -6,7 +6,7 @@ import org.apache.commons.logging.LogFactory
 import org.springframework.stereotype.Service
 
 @Service
-class MobileAppBuilderService(private val mobileAppProjectRepository: MobileAppProjectRepository) {
+class MobileAppProjectService(private val mobileAppProjectRepository: MobileAppProjectRepository) {
     private val log = LogFactory.getLog(MobileAppProject::class.java)
 
     /**
