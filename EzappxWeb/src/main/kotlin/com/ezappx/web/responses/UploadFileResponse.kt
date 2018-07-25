@@ -1,3 +1,3 @@
 package com.ezappx.web.responses
 
-data class UploadFileResponse(val ObjectId: String)
+data class UploadFileResponse( val status: String,val fileId: String?=null)

@@ -24,18 +24,16 @@ class ExportMobileAppProjectController(
     private val log = LogFactory.getLog(ExportMobileAppProjectController::class.java)
 
     /**
-     * 发送打包请求前的预处理，首先存储至数据库
+     * 发送编译请求
      */
     @PostMapping("/sendBuildRequest")
     fun export(@RequestBody mobileAppProject: MobileAppProject, authentication: Authentication): WebAsyncTask<MobileAppBuilderResponse> {
         // TODO timeout is not reasonable
-        // TODO js插件中静态资源入库，仅保留资源id
         val webAsyncTask = WebAsyncTask<MobileAppBuilderResponse>(10000, Callable {
             exportService.sendBuildMobileAppRequest(mobileAppProject)
         })
 
         webAsyncTask.onCompletion {
-            log.debug("completed")
         }
 
         webAsyncTask.onTimeout {
@@ -48,13 +46,23 @@ class ExportMobileAppProjectController(
         return webAsyncTask
     }
 
+    /**
+     * 上传html和css资源到数据库
+     */
     @PostMapping("/upload/projectFile")
     fun uploadMobileAppProject(@RequestBody mobileAppProjectFile: MobileAppProjectFile): UploadFileResponse {
-//        log.debug(mobileAppProjectFile)
         val id = fileStorageService.storeFileInDB(mobileAppProjectFile)
-        return UploadFileResponse("uploaded ${mobileAppProjectFile.filePath}, id is $id")
+        return if (id != null) {
+            UploadFileResponse(fileId = id, status = "uploaded ${mobileAppProjectFile.filePath}, id is $id")
+        } else {
+            UploadFileResponse("Can not store the file to db")
+        }
     }
 
+    /**
+     * 上传二进制数据到数据库
+     * TODO js插件中静态资源入库，仅保留资源id
+     */
     @PostMapping("/upload/binaryData")
     fun uploadBinaryData(@RequestParam("file") file: MultipartFile): UploadFileResponse {
         val fileName = fileStorageService.storeFileInDir(file)
