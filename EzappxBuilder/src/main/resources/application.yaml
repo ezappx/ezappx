@@ -16,3 +16,7 @@ spring:
   devtools:
     livereload:
       enabled: false
+
+ezappx:
+  builder:
+    userProjectDirName: UserProjects

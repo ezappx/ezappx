@@ -2,11 +2,9 @@ package com.ezappx.web.services
 
 import com.ezappx.web.models.MobileAppProject
 import com.ezappx.web.properties.MobileAppBuilderAPI
-import com.ezappx.web.repositories.UserProjectRepository
 import com.ezappx.web.responses.MobileAppBuilderResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.logging.LogFactory
-import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -16,8 +14,6 @@ import java.net.ConnectException
 
 @Service
 class ExportMobileAppService(private val restTemplate: RestTemplate,
-                             private val userProjectRepository: UserProjectRepository,
-                             private val mongoOperations: MongoOperations,
                              private val mobileAppBuilderAPI: MobileAppBuilderAPI) {
 
     private val log = LogFactory.getLog(ExportMobileAppService::class.java)
@@ -35,7 +31,12 @@ class ExportMobileAppService(private val restTemplate: RestTemplate,
                     resolveRemoteBuilderServerApi(mobileAppProject.mobileOS),
                     entity,
                     MobileAppBuilderResponse::class.java)
-            response ?: throw ConnectException("no response from remote server")
+            if (response != null) {
+                response.downloadUrl = mobileAppBuilderAPI.base + response.downloadUrl
+                response
+            }else {
+                throw ConnectException("no response from remote server")
+            }
         } catch (e: Exception) {
             log.error(e)
             MobileAppBuilderResponse(e.toString())
@@ -46,7 +47,7 @@ class ExportMobileAppService(private val restTemplate: RestTemplate,
      * 获得远程打包服务器API
      */
     private fun resolveRemoteBuilderServerApi(targetMobileOS: String?) = when (targetMobileOS?.toUpperCase()) {
-        "ANDROID" -> mobileAppBuilderAPI.android
+        "ANDROID" -> mobileAppBuilderAPI.androidBuilder
         "IOS" -> mobileAppBuilderAPI.ios
         else -> throw IllegalArgumentException("not supported mobile OS $targetMobileOS")
     }

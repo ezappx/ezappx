@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component
 @Component
 @ConfigurationProperties(prefix = "ezappx.builder")
 class MobileAppBuilderAPI {
-    lateinit var android: String
+    lateinit var base: String
+    lateinit var androidBuilder: String
     lateinit var ios: String
 }

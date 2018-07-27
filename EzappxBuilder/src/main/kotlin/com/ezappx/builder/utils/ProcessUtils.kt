@@ -2,16 +2,14 @@ package com.ezappx.builder.utils
 
 import org.apache.commons.logging.LogFactory
 import java.io.BufferedReader
-import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
+import java.nio.file.Path
 
-class ProcessUtils {
+object ProcessUtils {
     private val log = LogFactory.getLog(ProcessUtils::class.java)
-    lateinit var execInDir: File
 
     private fun runAndRead(process: Process) {
-        log.debug("start")
         try {
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             var line: String? = reader.readLine()
@@ -30,10 +28,11 @@ class ProcessUtils {
         }
     }
 
-    fun exec(command: List<String>) {
+    fun exec(atDir: Path, command: List<String>) {
+        log.debug("exec $command")
         val processBuilder = ProcessBuilder(command)
         processBuilder.inheritIO()
-        processBuilder.directory(execInDir)
+        processBuilder.directory(atDir.toFile())
         val process = processBuilder.start()
         runAndRead(process)
         process.waitFor()

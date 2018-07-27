@@ -18,6 +18,5 @@ class AppBuilderTests {
                     binaryFiles = listOf("ing/TestProject-file1", "ing/TestProject-file2"),
                     cordovaPlugins = listOf("cordova-plugin1", "cordova-plugin2"))
         }
-        println(builder.installerFile())
     }
 }

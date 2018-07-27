@@ -4,52 +4,42 @@ import com.ezappx.builder.models.MobileAppProject
 import com.ezappx.builder.utils.ProcessUtils
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
-import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 
 abstract class AbstractMobileAppBuilder {
     companion object {
         val log: Log = LogFactory.getLog(AbstractMobileAppBuilder::class.java)
-        val BASE_DIR: Path = Paths.get(System.getProperty("user.dir"))
         const val BASE_PACKAGE = "com.ezappx"
+        const val PREFIX = "ezappx"
     }
 
-    protected val processUtil = ProcessUtils()
     lateinit var project: MobileAppProject
     lateinit var projectPackage: String
-    lateinit var userProjectDir: Path
+    lateinit var userProjectDir:Path
+    lateinit var projectDir: Path
+    lateinit var projectWWWDir: Path
+    lateinit var addResources: () -> Unit
 
     /**
-     * 若要自定义包名和工程目录名称
-     * 默认初始化工程目录为 UserProjects
+     * 设置包名、工作目录
      */
-    fun initBuilderEnv() {
-        projectPackage = BASE_PACKAGE + "." + project.username + "." + project.projectName
-        // 创建用户工作目录
-        val baseDir = BASE_DIR.resolve("UserProjects")
-        if (!Files.exists(baseDir)) {
-            Files.createDirectory(baseDir)
-        }
-        userProjectDir = baseDir.resolve(project.username)
-        if (!Files.exists(userProjectDir)) {
-            Files.createDirectory(userProjectDir)
-        }
-        processUtil.execInDir = userProjectDir.toFile()
+    fun initBuilderArgs() {
+        // 添加PREFIX防止非法命名
+        projectPackage = BASE_PACKAGE + "." + PREFIX + project.username + "." + PREFIX + project.projectName
+        projectDir = userProjectDir.resolve(project.projectName)
+        projectWWWDir = projectDir.resolve("www")
     }
 
     abstract fun initProject()
     abstract fun addPlatform()
     abstract fun addCordovaPlugins()
-    abstract fun addCodeResources()
     abstract fun build()
-    abstract fun installerFile(): Path
 
     protected fun debug(msg: String) {
-        log.debug("[${project.username}/${project.projectName}] $msg")
+        log.debug("[${project.username} - ${project.projectName}] $msg")
     }
 
     protected fun info(msg: String) {
-        log.info("[${project.username}/${project.projectName}] $msg")
+        log.info("[${project.username} - ${project.projectName}] $msg")
     }
 }
