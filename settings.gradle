@@ -1,4 +1,4 @@
 rootProject.name = 'Ezapp'
-include 'EzappxWeb'
+include 'EzappxDesigner'
 include 'EzappxBuilder'
 
