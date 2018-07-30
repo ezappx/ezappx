@@ -22,14 +22,14 @@ class StorageService(
         Files.createDirectories(fileStorageLocation)
     }
 
-    fun storeFileInDir(file: MultipartFile): String {
+    fun storeFile2Dir(file: MultipartFile): String {
         val fileName = StringUtils.cleanPath(file.originalFilename!!)
         val targetLocation = this.fileStorageLocation.resolve(fileName)
         Files.copy(file.inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING)
         return fileName
     }
 
-    fun storeFileInDB(mobileAppProjectFile: MobileAppProjectFile): String? {
+    fun storeProject2DB(mobileAppProjectFile: MobileAppProjectFile): String? {
         val oldFile = mobileAppProjectFileRepository.findByUsernameAndProjectNameAndFilePath(
                 mobileAppProjectFile.username, mobileAppProjectFile.projectName, mobileAppProjectFile.filePath
         ).firstOrNull()
@@ -37,5 +37,10 @@ class StorageService(
             mobileAppProjectFile.id = oldFile.id
         }
         return mobileAppProjectFileRepository.save(mobileAppProjectFile).id
+    }
+
+    // TODO 上传文件到mongodb
+    fun storeBinaryData2Db(file: MultipartFile): String {
+        return "file id"
     }
 }
