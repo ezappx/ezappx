@@ -43,7 +43,11 @@
         },
         assetManager: {
             upload: 'http://localhost:8080/upload/binaryData',
-            uploadName: 'files'
+            uploadName: 'files',
+            params: {
+                'username': /*[[${username}]]*/ 'test-user',
+                'projectName': /*[[${username}]]*/ 'test-project'
+            }
         }
     });
     window.editor = editor;

@@ -22,9 +22,9 @@ logging:
 
 ezappx:
   builder:
-    base: http://10.109.252.77:8081/api/v1
-    androidBuilder: http://10.109.252.77:8081/api/v1/android/build
-    ios: http://10.109.252.77:8081/api/v1/ios/build
+    builderApi: http://10.109.252.77:8081/api/v1
+    androidBuilderApi: http://10.109.252.77:8081/api/v1/android/build
+    iosBuilderApi: http://10.109.252.77:8081/api/v1/iosBuilderApi/build
   file:
     uploadDir: ./UserProjects/Uploads
 

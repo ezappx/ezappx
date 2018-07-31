@@ -5,6 +5,7 @@ import com.ezappx.web.responses.UploadFileResponse
 import com.ezappx.web.services.StorageService
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -33,10 +34,16 @@ class UploaderController(@Autowired private val fileStorageService: StorageServi
      * TODO js插件中静态资源入库，仅保留资源id
      */
     @PostMapping("/binaryData")
-    fun uploadBinaryData(@RequestParam("files[]") file: MultipartFile): UploadFileResponse {
-        val fileName = fileStorageService.storeFile2Dir(file)
-        val fileId = fileStorageService.storeBinaryData2Db(file)
-        return UploadFileResponse("http://uploader/$fileName", "test-id")
+    fun uploadBinaryData(@RequestParam("files[]") file: MultipartFile,
+                         @RequestParam("username") username: String,
+                         @RequestParam("projectName") projectName: String,
+                         authentication: Authentication): UploadFileResponse {
+        if (!authentication.isAuthenticated) {
+            return UploadFileResponse(status = "Upload file failed. Need authentication")
+        }
+        val fileName = fileStorageService.storeFile2Dir(username, projectName, file)
+        val fileId = fileStorageService.storeBinaryData2Db(username, projectName, file)
+        return UploadFileResponse("http://uploader/$fileName", fileId)
     }
 
 }

@@ -1,7 +1,7 @@
 package com.ezappx.web.services
 
 import com.ezappx.web.models.MobileAppProject
-import com.ezappx.web.properties.MobileAppBuilderAPI
+import com.ezappx.web.properties.BuilderProperties
 import com.ezappx.web.responses.MobileAppBuilderResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.logging.LogFactory
@@ -14,7 +14,7 @@ import java.net.ConnectException
 
 @Service
 class ExportMobileAppService(private val restTemplate: RestTemplate,
-                             private val mobileAppBuilderAPI: MobileAppBuilderAPI) {
+                             private val builderProperties: BuilderProperties) {
 
     private val log = LogFactory.getLog(ExportMobileAppService::class.java)
 
@@ -32,7 +32,7 @@ class ExportMobileAppService(private val restTemplate: RestTemplate,
                     entity,
                     MobileAppBuilderResponse::class.java)
             if (response != null) {
-                response.downloadUrl = mobileAppBuilderAPI.base + response.downloadUrl
+                response.downloadUrl = builderProperties.builderApi + response.downloadUrl
                 response
             }else {
                 throw ConnectException("no response from remote server")
@@ -47,8 +47,8 @@ class ExportMobileAppService(private val restTemplate: RestTemplate,
      * 获得远程打包服务器API
      */
     private fun resolveRemoteBuilderServerApi(targetMobileOS: String?) = when (targetMobileOS?.toUpperCase()) {
-        "ANDROID" -> mobileAppBuilderAPI.androidBuilder
-        "IOS" -> mobileAppBuilderAPI.ios
+        "ANDROID" -> builderProperties.androidBuilderApi
+        "IOS" -> builderProperties.iosBuilderApi
         else -> throw IllegalArgumentException("not supported mobile OS $targetMobileOS")
     }
 }
