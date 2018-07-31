@@ -23,6 +23,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/", "/register").permitAll()
                 .antMatchers("/css/**", "/js/**").permitAll()
                 .antMatchers("/upload/**").permitAll()
+                .antMatchers("/resource/static/**").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login")
                 .defaultSuccessUrl("/designer", true)

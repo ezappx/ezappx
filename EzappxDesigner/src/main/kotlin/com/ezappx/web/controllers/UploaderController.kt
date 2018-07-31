@@ -22,7 +22,7 @@ class UploaderController(@Autowired private val fileStorageService: StorageServi
     fun uploadMobileAppProject(@RequestBody mobileAppProjectFile: MobileAppProjectFile): UploadFileResponse {
         val id = fileStorageService.storeProject2DB(mobileAppProjectFile)
         return if (id != null) {
-            UploadFileResponse(fileId = id, status = "uploaded ${mobileAppProjectFile.filePath}, id is $id")
+            UploadFileResponse(status = "uploaded ${mobileAppProjectFile.filePath}, id is $id", fileId = id)
         } else {
             UploadFileResponse("Can not store the file to db")
         }
@@ -39,11 +39,13 @@ class UploaderController(@Autowired private val fileStorageService: StorageServi
                          @RequestParam("projectName") projectName: String,
                          authentication: Authentication): UploadFileResponse {
         if (!authentication.isAuthenticated) {
-            return UploadFileResponse(status = "Upload file failed. Need authentication")
+            return UploadFileResponse("Upload file failed. Need authentication")
         }
-        val fileName = fileStorageService.storeFile2Dir(username, projectName, file)
+//        fileStorageService.storeFile2Dir(username, projectName, file)
         val fileId = fileStorageService.storeBinaryData2Db(username, projectName, file)
-        return UploadFileResponse("http://uploader/$fileName", fileId)
+        val resp = UploadFileResponse("uploaded $fileId", listOf("http://localhost:8080/resource/static/$fileId"), fileId)   // TODO change url to properties       // TODO change url to properties
+        log.debug(resp)
+        return resp
     }
 
 }

@@ -15,8 +15,7 @@ import java.util.concurrent.Callable
 
 @RestController
 @RequestMapping("/export")
-class ExportController(
-        @Autowired private val exportService: ExportMobileAppService) {
+class ExportController(@Autowired private val exportService: ExportMobileAppService) {
 
     private val log = LogFactory.getLog(ExportController::class.java)
 
