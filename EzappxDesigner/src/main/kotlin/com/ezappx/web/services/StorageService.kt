@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria
 import org.springframework.data.mongodb.gridfs.GridFsOperations
 import org.springframework.data.mongodb.gridfs.GridFsResource
 import org.springframework.stereotype.Service
+import org.springframework.util.DigestUtils
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Files
@@ -55,6 +56,13 @@ class StorageService(
     }
 
     fun storeBinaryData2Db(username: String, projectName: String, file: MultipartFile): String {
+        // 数据库存在相同文件时直接返回数据ID
+        val sameFile = queryFileByMD5(calcMD5(file))
+        if (sameFile != null) {
+            return sameFile.objectId.toString()
+        }
+
+        // 不存在相同文件时数据入库
         val metaData = BasicDBObject()
         metaData["username"] = username
         metaData["projectName"] = projectName
@@ -64,10 +72,13 @@ class StorageService(
         return fileId.toString()
     }
 
+    private fun calcMD5(file: MultipartFile): String = DigestUtils.md5DigestAsHex(file.bytes).toLowerCase()
+
+    private fun queryFileByMD5(md5: String): GridFSFile? = gridFsOperations.findOne(Query.query(GridFsCriteria.where("md5").`is`(md5)))
+
     fun loadBinaryData(fileId: String): GridFsResource {
         val file = gridFsOperations.findOne(Query.query(GridFsCriteria.where("_id").`is`(fileId)))
         if (file != null) {
-//            return files
             return GridFsResource(file, getGridFs().openDownloadStream(file.objectId))
         } else {
             throw MongoGridFSException("file $fileId not found")
