@@ -22,9 +22,11 @@ logging:
 
 ezappx:
   builder:
-    builderApi: http://127.0.0.1:8081/api/v1
-    androidBuilderApi: http://127.0.0.1:8081/api/v1/android/build
-    iosBuilderApi: http://127.0.0.1:8081/api/v1/iosBuilderApi/build
+    builderApi: http://localhost:8081/api/v1
+    androidBuilderApi: http://localhost:8081/api/v1/android/build
+    iosBuilderApi: http://localhost:8081/api/v1/iosBuilderApi/build
   file:
-    uploadDir: ./Uploads
+    uploadDir: Uploads
+    uploadApi: http://localhost:8080/upload/binaryData
+    resourceApi: http://localhost:8080/resource/static
 

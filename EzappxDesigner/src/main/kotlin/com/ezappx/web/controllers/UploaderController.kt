@@ -1,8 +1,9 @@
 package com.ezappx.web.controllers
 
 import com.ezappx.web.models.MobileAppProjectFile
+import com.ezappx.web.properties.FileStorageProperties
 import com.ezappx.web.responses.UploadFileResponse
-import com.ezappx.web.services.StorageService
+import com.ezappx.web.services.FileStorageService
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
@@ -11,7 +12,8 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/upload")
-class UploaderController(@Autowired private val fileStorageService: StorageService) {
+class UploaderController(@Autowired private val fileStorageService: FileStorageService,
+                         @Autowired private val fileStorageProperties: FileStorageProperties) {
 
     private val log = LogFactory.getLog(UploaderController::class.java)
 
@@ -43,7 +45,7 @@ class UploaderController(@Autowired private val fileStorageService: StorageServi
         }
 //        fileStorageService.storeFile2Dir(username, projectName, file)
         val fileId = fileStorageService.storeBinaryData2Db(username, projectName, file)
-        val resp = UploadFileResponse("uploaded $fileId", listOf("http://localhost:8080/resource/static/$fileId"), fileId)   // TODO change url to properties       // TODO change url to properties
+        val resp = UploadFileResponse("uploaded $fileId", listOf("${fileStorageProperties.resourceApi}/$fileId"), fileId)   // TODO change url to properties       // TODO change url to properties
         log.debug(resp)
         return resp
     }

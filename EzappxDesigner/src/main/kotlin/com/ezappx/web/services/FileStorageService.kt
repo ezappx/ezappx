@@ -24,13 +24,13 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 @Service
-class StorageService(
+class FileStorageService(
         @Autowired private val fileStorageProperties: FileStorageProperties,
         @Autowired private val mobileAppProjectFileRepository: MobileAppProjectFileRepository,
         @Autowired private val gridFsOperations: GridFsOperations,
         @Autowired private val mongoDbFactory: MongoDbFactory) {
 
-    private val log: Log = LogFactory.getLog(StorageService::class.java)
+    private val log: Log = LogFactory.getLog(FileStorageService::class.java)
     private val fileStorageLocation = Paths.get(fileStorageProperties.uploadDir).toAbsolutePath().normalize()
 
     init {

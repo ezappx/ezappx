@@ -42,7 +42,7 @@
             scripts: ['http://cdn.ezappx.com/js/jquery-3.3.1.min.js']
         },
         assetManager: {
-            upload: 'http://localhost:8080/upload/binaryData',
+            upload: /*[[${uploadApi}]]*/ 0,
             uploadName: 'files',
             params: {
                 'username': /*[[${username}]]*/ 'test-user',

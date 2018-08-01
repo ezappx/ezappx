@@ -7,4 +7,6 @@ import org.springframework.stereotype.Component
 @ConfigurationProperties(prefix = "ezappx.file")
 class FileStorageProperties {
     lateinit var uploadDir: String
+    lateinit var uploadApi: String
+    lateinit var resourceApi: String
 }

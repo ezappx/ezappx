@@ -1,7 +1,7 @@
 package com.ezappx.web.controllers
 
 import com.ezappx.web.properties.FileStorageProperties
-import com.ezappx.web.services.StorageService
+import com.ezappx.web.services.FileStorageService
 import com.mongodb.MongoGridFSException
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/resource/static")
-class StaticResourceController(@Autowired private val storageService: StorageService,
+class StaticResourceController(@Autowired private val fileStorageService: FileStorageService,
                                @Autowired private val fileStorageProperties: FileStorageProperties) {
 
     private val log: Log = LogFactory.getLog(StaticResourceController::class.java)
@@ -25,7 +25,7 @@ class StaticResourceController(@Autowired private val storageService: StorageSer
     @GetMapping("/{fileId:.+}")
     fun downloadData(@PathVariable fileId: String): ResponseEntity<Resource> {
         try {
-            val gridFSFile = storageService.loadBinaryData(fileId)
+            val gridFSFile = fileStorageService.loadBinaryData(fileId)
 
             // 本地文件测试
 //            Files.copy(
