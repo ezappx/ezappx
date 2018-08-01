@@ -61,11 +61,12 @@ class MobileAppProjectService(
         // 删除 destinationDir 内的所有文件
         FileSystemUtils.deleteRecursively(destinationDir)
         // 获取HTML和CSS文件
-        val query = Query(Criteria.where("id").`in`(mobileAppProject.binaryFiles))
+        val query = Query(Criteria.where("_id").`in`(mobileAppProject.binaryFiles))
         val files = mongoOperations.find(query, MobileAppProjectFile::class.java)
         files.forEach {
             val file = destinationDir.resolve(it.filePath).toAbsolutePath().normalize()
             // 创建所需的父目录
+            log.debug("create file $file")
             Files.createDirectories(file.parent)
             Files.write(file, it.content.toByteArray(), StandardOpenOption.CREATE)
         }

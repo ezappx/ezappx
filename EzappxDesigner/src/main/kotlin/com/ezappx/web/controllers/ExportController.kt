@@ -22,7 +22,7 @@ class ExportController(@Autowired private val exportService: ExportMobileAppServ
     /**
      * 发送编译请求
      */
-    @PostMapping("/sendBuildRequest")
+    @PostMapping("/mobileAppProject")
     fun export(@RequestBody mobileAppProject: MobileAppProject, authentication: Authentication): WebAsyncTask<MobileAppBuilderResponse> {
         // TODO timeout is not reasonable
         val webAsyncTask = WebAsyncTask<MobileAppBuilderResponse>(120000, Callable {

@@ -33,8 +33,10 @@
         plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'ezapp-plugin-export'],
         pluginsOpts: {
             'ezapp-plugin-export': {
-                username: /*[[${username}]]*/ 'test-user',
-                projectName: /*[[${username}]]*/ 'test-project',
+                username: /*[[${username}]]*/ 'default-user',
+                projectName: /*[[${username}]]*/ 'default-project',
+                uploadApi: '/upload/projectFile',
+                exportApi: '/export/mobileAppProject'
             }
         },
         canvas: {
