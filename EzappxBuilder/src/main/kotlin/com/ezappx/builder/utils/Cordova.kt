@@ -5,7 +5,7 @@ object Cordova {
 
     fun create(dirName: String, packageName: String, projectName: String) = listOf(CORDOVA, "create", dirName, packageName, projectName)
 
-    fun addPlatform(mobileOS: String) = listOf(CORDOVA, "platform", "add", mobileOS.toLowerCase())
+    fun addPlatform(mobileOS: String, version:String) = listOf(CORDOVA, "platform", "add", "${mobileOS.toLowerCase()}@$version")
 
     fun addPlugin(pluginName: String) = listOf(CORDOVA, "plugin", "add", pluginName)
 

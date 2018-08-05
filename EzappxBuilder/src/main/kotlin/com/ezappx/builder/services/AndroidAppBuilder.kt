@@ -18,9 +18,10 @@ class AndroidAppBuilder : AbstractMobileAppBuilder() {
 
     override fun addPlatform() {
         // 添加Android编译环境
-        if (!Files.exists(projectDir.resolve("platforms").resolve("android@6.4.0"))) { // TODO 安卓版本问题，插件版本不同支持的安卓版本范围不同 https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html
+        if (!Files.exists(projectDir.resolve("platforms").resolve("android"))) {
             debug("add android platform")
-            ProcessUtils.exec(projectDir, Cordova.addPlatform(project.mobileOS))
+            // TODO 安卓版本问题，插件版本不同支持的安卓版本范围不同 https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html
+            ProcessUtils.exec(projectDir, Cordova.addPlatform(project.mobileOS, version ="6.4.0"))
         }
 
         // 设置最小SDK版本号

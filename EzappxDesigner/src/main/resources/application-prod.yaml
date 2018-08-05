@@ -26,7 +26,6 @@ ezappx:
     androidBuilderApi: http://10.109.252.77:8081/api/v1/android/build
     iosBuilderApi: http://10.109.252.77:8081/api/v1/iosBuilderApi/build
   file:
-    uploadDir: Uploads
     uploadApi: http://www.ezappx.com/upload/binaryData
     resourceApi: http://www.ezappx.com/resource/static
 

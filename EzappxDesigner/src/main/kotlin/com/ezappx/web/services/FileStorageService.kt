@@ -25,25 +25,11 @@ import java.nio.file.StandardCopyOption
 
 @Service
 class FileStorageService(
-        @Autowired private val fileStorageProperties: FileStorageProperties,
         @Autowired private val mobileAppProjectFileRepository: MobileAppProjectFileRepository,
         @Autowired private val gridFsOperations: GridFsOperations,
         @Autowired private val mongoDbFactory: MongoDbFactory) {
 
     private val log: Log = LogFactory.getLog(FileStorageService::class.java)
-    private val fileStorageLocation = Paths.get(fileStorageProperties.uploadDir).toAbsolutePath().normalize()
-
-    init {
-        Files.createDirectories(fileStorageLocation)
-    }
-
-    fun storeFile2Dir(username: String, projectName: String, file: MultipartFile): String {
-        val userFileStorageDir = fileStorageLocation.resolve(username).resolve(projectName)
-        Files.createDirectories(userFileStorageDir)
-        val fileName = StringUtils.cleanPath(file.originalFilename!!)
-        Files.copy(file.inputStream, userFileStorageDir.resolve(fileName), StandardCopyOption.REPLACE_EXISTING)
-        return fileName
-    }
 
     fun storeProject2DB(mobileAppProjectFile: MobileAppProjectFile): String? {
         val oldFile = mobileAppProjectFileRepository.findByUsernameAndProjectNameAndFilePath(
