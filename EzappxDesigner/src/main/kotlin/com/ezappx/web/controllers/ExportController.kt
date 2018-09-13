@@ -25,7 +25,7 @@ class ExportController(@Autowired private val exportService: ExportMobileAppServ
     @PostMapping("/mobileAppProject")
     fun export(@RequestBody mobileAppProject: MobileAppProject, authentication: Authentication): WebAsyncTask<MobileAppBuilderResponse> {
         // TODO timeout is not reasonable
-        val webAsyncTask = WebAsyncTask<MobileAppBuilderResponse>(120000, Callable {
+        val webAsyncTask = WebAsyncTask<MobileAppBuilderResponse>(200000, Callable {
             exportService.sendBuildMobileAppRequest(mobileAppProject)
         })
 
