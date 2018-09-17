@@ -30,7 +30,8 @@
             </div>
             <div class="modal-body">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                 </div>
             </div>
             <!-- <div class="modal-footer">
@@ -43,53 +44,56 @@
 
 <script type="text/javascript" th:inline="javascript">
 
-     const editor = grapesjs.init({
-         height: '100%',
-         showOffsets: 1,
-         noticeOnUnload: 0,
-         storageManager: {
-             id: 'gjs-',
-             type: 'local',
-             autosave: true,
-             autoload: true,
-             stepBeforeSave: 1
-         },
-         container: '#gjs',
-         fromElement: true,
+    const editor = grapesjs.init({
+        height: '100%',
+        showOffsets: 1,
+        noticeOnUnload: 0,
+        storageManager: {
+            id: 'gjs-',
+            type: 'local',
+            autosave: true,
+            autoload: true,
+            stepBeforeSave: 1
+        },
+        container: '#gjs',
+        fromElement: true,
 
-         plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'ezapp-plugin-export', 'ezapp-plugin-weui'],
-         pluginsOpts: {
-             'ezapp-plugin-export': {
-                 username: /*[[${username}]]*/ 'default-user',
-                 projectName: /*[[${username}]]*/ 'default-project',
-                 uploadApi: '/upload/projectFile',
-                 exportApi: '/export/mobileAppProject'
-             }
-         },
+        plugins: ['ezapp-plugin-ajax', 'gjs-blocks-basic', 'ezapp-plugin-export', 'ezapp-plugin-weui'],
+        pluginsOpts: {
+            'ezapp-plugin-export': {
+                username: /*[[${username}]]*/ 'default-user',
+                projectName: /*[[${username}]]*/ 'default-project',
+                uploadApi: '/upload/projectFile',
+                exportApi: '/export/mobileAppProject'
+            }
+        },
 
-         canvas: {
-             styles: ['http://cdn.ezappx.com/css/weui.min.css'],
-             scripts: ['http://cdn.ezappx.com/js/jquery-3.3.1.min.js'],
-         },
+        canvas: {
+            styles: ['http://cdn.ezappx.com/css/weui.min.css'],
+            scripts: ['http://cdn.ezappx.com/js/jquery-3.3.1.min.js'],
+        },
 
-         assetManager: {
-             upload: /*[[${uploadApi}]]*/ 0,
-             uploadName: 'files',
-             params: {
-                 'username': /*[[${username}]]*/ 'default-user',
-                 'projectName': /*[[${username}]]*/ 'default-project'
-             }
-         },
+        assetManager: {
+            upload: /*[[${uploadApi}]]*/ 0,
+            uploadName: 'files',
+            params: {
+                'username': /*[[${username}]]*/ 'default-user',
+                'projectName': /*[[${username}]]*/ 'default-project'
+            }
+        },
 
-         deviceManager: {
-             devices: [
-                 {name: '选择设备', width:''},
-                 {name: 'Android', width: '500px', height: "888px"},
-                 {name: 'Android 横屏', height: '500px', width: "888px"}
-             ],
-             deviceLabel: 'Device',
-         }
-     });
+        deviceManager: {
+            devices: [
+                {name: 'Android', width: '500px', height: "888px", widthMedia: ''},
+                {name: 'Android 横屏', height: '500px', width: "888px", widthMedia: ''},
+                {name: 'iOS', width: '500px', height: "888px", widthMedia: ''},
+                {name: 'iOS 横屏', height: '500px', width: "888px", widthMedia: ''}
+            ],
+            deviceLabel: 'Device',
+        }
+    });
+
+    editor.setDevice("Android");
 
     editor.Commands.add('canvas-clear', function () {
         if (confirm('确认清除画布?')) {

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class DesignerController(@Autowired private val fileStorageProperties: FileStorageProperties) {
 
+    /**
+     * designer页面逻辑处理，[authentication] 用于用户登陆验证
+     */
     @RequestMapping("/designer")
     fun designer(model: Model, authentication: Authentication): String {
         model["username"] = authentication.name
