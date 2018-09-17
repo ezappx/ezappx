@@ -24,7 +24,8 @@ class EzappUserDetailService : UserDetailsService {
         val user = userRepository.findByUsername(username!!).firstOrNull()
         if (user != null) {
             log.debug("user logged as $user")
-            return User(username, user.password, listOf(SimpleGrantedAuthority("ROLE_USER")))
+            // TODO add more user roles
+            return User(username, user.password, listOf(SimpleGrantedAuthority("NORMAL_USER")))
         } else throw UsernameNotFoundException("$username not found")
     }
 
