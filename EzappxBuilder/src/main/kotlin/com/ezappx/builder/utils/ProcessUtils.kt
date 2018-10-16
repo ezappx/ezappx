@@ -11,6 +11,11 @@ import java.nio.file.Path
  */
 object ProcessUtils {
     private val log = LogFactory.getLog(ProcessUtils::class.java)
+    private var outputLine: String? = null
+    /**
+     * 最后输出行
+     */
+    var lastOutputLine: String = ""
 
     /**
      * 执行[process]并输出内容到终端
@@ -19,10 +24,11 @@ object ProcessUtils {
     private fun runAndRead(process: Process) {
         try {
             val reader = BufferedReader(InputStreamReader(process.inputStream))
-            var line: String? = reader.readLine()
-            while (line != null) {
-                log.debug(line)
-                line = reader.readLine()
+            outputLine = reader.readLine()
+            while (outputLine != null) {
+                log.debug(outputLine)
+                lastOutputLine = outputLine!!
+                outputLine = reader.readLine()
             }
         } catch (e: IOException) {
             log.error(e)
@@ -39,14 +45,15 @@ object ProcessUtils {
      * 新建进程执行命令[command]
      * @param atDir 执行命令所在目录
      * @param command 命令
+     * @return 最后输出行
      */
-    fun exec(atDir: Path, command: List<String>) {
+    fun exec(atDir: Path, command: List<String>):String {
         log.debug("exec $command")
         val processBuilder = ProcessBuilder(command)
-        processBuilder.inheritIO()
         processBuilder.directory(atDir.toFile())
         val process = processBuilder.start()
         runAndRead(process)
         process.waitFor()
+        return lastOutputLine
     }
 }

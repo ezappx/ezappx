@@ -15,6 +15,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.io.IOException
+import java.nio.file.Paths
 
 /**
  * EzappxBuilder的REST接口
@@ -24,6 +25,7 @@ import java.io.IOException
 @RequestMapping("/api/v1/android")
 class MobileAppBuilderController(@Autowired private val mobileAppProjectService: MobileAppProjectService) {
     private val log = LogFactory.getLog(MobileAppBuilderController::class.java)
+    private var appInstaller = ""
 
     /**
      * 目前运行环境可编译的移动操作系统平台类型
@@ -52,12 +54,15 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
                 this.userProjectDir = userProjectDir
                 this.addResources = { mobileAppProjectService.createMobileAppProjectFiles(projectWWWDir, project) }
                 // TODO 应该放在配置文件或前端项目设置里，测试用4.3版本
-                this.androidMinSDK="18"
+                this.androidMinSDK = "18"
             }
+            log.debug("apk: ${builder.appInstaller}")
+            appInstaller = builder.appInstaller
             MobileAppBuilderResponse(status = "Start download ${builder.project.username} - ${builder.project.projectName} app installer ...",
                     downloadUrl = "/android/download/${mobileAppProject.username}/${mobileAppProject.projectName}")
         } catch (e: IOException) {
             log.error(e)
+            resetArgs()
             MobileAppBuilderResponse("can not init cordova project")
         }
     }
@@ -70,11 +75,18 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
      */
     @GetMapping("/download/{username:.+}/{projectName:.+}")
     fun downloadAndroidApp(@PathVariable username: String, @PathVariable projectName: String): ResponseEntity<Resource> {
-        val appUri = mobileAppProjectService.androidAppUri(username, projectName)
-        val appResource = mobileAppProjectService.loadFileAsResource(appUri)
+        val appResource = mobileAppProjectService.loadFileAsResource(Paths.get(appInstaller))
+        resetArgs()
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + appResource.filename + "\"")
                 .body(appResource)
+    }
+
+    /**
+     * 重置[appInstaller]参数
+     */
+    private fun resetArgs() {
+        appInstaller = ""
     }
 }

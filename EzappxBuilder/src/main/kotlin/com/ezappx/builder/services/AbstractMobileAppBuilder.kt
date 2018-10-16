@@ -40,7 +40,11 @@ abstract class AbstractMobileAppBuilder {
     /**
      * Cordova工程的WWW目录，应位于[projectDir]下
      */
-    lateinit var projectWWWDir: Path //Cordova工程的WWW目录
+    lateinit var projectWWWDir: Path
+    /**
+     * 编译完成后的应用安装包路径
+     */
+    lateinit var appInstaller:String
 
 
     /**
