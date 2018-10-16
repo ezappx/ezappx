@@ -5,6 +5,17 @@ import io.swagger.annotations.ApiModel
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
+/**
+ * 移动应用工程
+ * @property username 用户名
+ * @property projectName 工程名
+ * @property createdAt 创建时间
+ * @property updatedAt 更新时间
+ * @property mobileOS 移动应用系统平台
+ * @property binaryFiles WWW资源文件的数据库ID
+ * @property cordovaPlugins Cordova插件名称
+ * @property id 数据库ID
+ */
 @ApiModel(value = "打包配置", description = "工程资源和相关配置")
 @Document
 data class MobileAppProject(

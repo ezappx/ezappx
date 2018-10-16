@@ -19,6 +19,9 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
+/**
+ * [MobileAppProject]工具类
+ */
 @Service
 class MobileAppProjectService(
         @Autowired private val mobileAppProjectRepository: MobileAppProjectRepository,
@@ -29,7 +32,8 @@ class MobileAppProjectService(
     private val userProjectDir = mobileAppBuilderProperty.baseDir.resolve(mobileAppBuilderProperty.userProjectDirName)
 
     /**
-     * 保存导出移动应用工程到数据库
+     * 保存移动应用工程到数据库
+     * @param mobileAppProject 移动应用工程
      */
     fun saveMobileAppProject2DB(mobileAppProject: MobileAppProject) {
         val oldMobileAppProject = mobileAppProjectRepository.findByUsernameAndProjectName(mobileAppProject.username, mobileAppProject.projectName).firstOrNull()
@@ -46,7 +50,9 @@ class MobileAppProjectService(
     }
 
     /**
-     * 创建 $UserProjects/$username文件夹
+     * 创建 $UserProjects/$username文件夹作为Cordova工程目录
+     * @param mobileAppProject 移动应用工程
+     * @return Cordova工程目录
      */
     fun prepareMobileAppProjectDir(mobileAppProject: MobileAppProject): Path {
         val projectDir = userProjectDir.resolve(mobileAppProject.username)
@@ -55,7 +61,9 @@ class MobileAppProjectService(
     }
 
     /**
-     * 生成文件存储到 destinationDir 目录
+     * 从[mobileAppProject]生成移动应用工程文件，并保存到[destinationDir]目录
+     * @param destinationDir 保存目录
+     * @param mobileAppProject 移动应用工程
      */
     fun createMobileAppProjectFiles(destinationDir: Path, mobileAppProject: MobileAppProject) {
         // 删除 destinationDir 内的所有文件
@@ -72,6 +80,11 @@ class MobileAppProjectService(
         }
     }
 
+    /**
+     * 将文件作为Resource读取
+     * @param file 文件
+     * @return file对应的Resource
+     */
     fun loadFileAsResource(file: Path): Resource {
         val resource = UrlResource(file.toUri())
         if (resource.exists()) {
@@ -82,7 +95,11 @@ class MobileAppProjectService(
     }
 
     /**
+     * 获取编译好的Android应用安装包
      * cordova-android@6.4 : platforms/android/build/outputs/apk/debug/android-debug.apk
+     * @param username 用户名
+     * @param projectName 工程名
+     * @return Android应用安装包
      */
     fun androidAppUri(username: String, projectName: String): Path = Paths.get(
             userProjectDir.toAbsolutePath().toString()

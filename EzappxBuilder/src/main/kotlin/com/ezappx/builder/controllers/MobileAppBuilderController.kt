@@ -16,16 +16,28 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.io.IOException
 
+/**
+ * EzappxBuilder的REST接口
+ */
 @CrossOrigin(origins = ["*"])
 @RestController
 @RequestMapping("/api/v1/android")
 class MobileAppBuilderController(@Autowired private val mobileAppProjectService: MobileAppProjectService) {
     private val log = LogFactory.getLog(MobileAppBuilderController::class.java)
 
+    /**
+     * 目前运行环境可编译的移动操作系统平台类型
+     * @return 移动操作系统平台类型
+     */
     @ApiOperation(value = "获取可用移动操作系统平台", notes = "可用平台取决于部署环境")
     @RequestMapping("/available", method = [RequestMethod.GET])
-    fun availableMobileOS() = listOf("Android", "iOS")
+    fun availableMobileOS() = listOf("Android", "iOS") //TODO 根据目前操作系统自动适配
 
+    /**
+     * 编译Android应用的接口
+     * @param mobileAppProject 移动应用工程
+     * @return [MobileAppBuilderResponse]
+     */
     @ApiOperation(value = "编译Android安装包", notes = "生成移动应用安装包")
     @ApiImplicitParam(name = "JSON文件", value = "移动应用工程")
     @RequestMapping("/build", method = [RequestMethod.POST])
@@ -50,6 +62,12 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
         }
     }
 
+    /**
+     * 下载文件的接口
+     * @param username 用户名
+     * @param projectName 工程名
+     * @return 文件类型的响应
+     */
     @GetMapping("/download/{username:.+}/{projectName:.+}")
     fun downloadAndroidApp(@PathVariable username: String, @PathVariable projectName: String): ResponseEntity<Resource> {
         val appUri = mobileAppProjectService.androidAppUri(username, projectName)

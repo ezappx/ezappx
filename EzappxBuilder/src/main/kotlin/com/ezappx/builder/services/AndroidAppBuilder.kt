@@ -5,10 +5,16 @@ import com.ezappx.builder.utils.ProcessUtils
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 
+/**
+ * 编译Android应用
+ */
 class AndroidAppBuilder : AbstractMobileAppBuilder() {
 
-    var androidMinSDK: String? = null
+    var androidMinSDK: String? = null //FIXME 应当从mobile project中获取
 
+    /**
+     * 初始化Cordova工程
+     */
     override fun initProject() {
         if (!Files.exists(projectDir)) {
             info("init ezappx-cordova project at ${projectDir.toAbsolutePath()}")
@@ -16,6 +22,9 @@ class AndroidAppBuilder : AbstractMobileAppBuilder() {
         }
     }
 
+    /**
+     * 添加Android平台
+     */
     override fun addPlatform() {
         // 添加Android编译环境
         if (!Files.exists(projectDir.resolve("platforms").resolve("android"))) {
@@ -31,6 +40,9 @@ class AndroidAppBuilder : AbstractMobileAppBuilder() {
         }
     }
 
+    /**
+     * 添加Cordova插件
+     */
     override fun addCordovaPlugins() {
         debug("add cordova plugins")
         for (plugin in project.cordovaPlugins) {
@@ -38,6 +50,9 @@ class AndroidAppBuilder : AbstractMobileAppBuilder() {
         }
     }
 
+    /**
+     * 编译
+     */
     override fun build() {
         debug("build app project")
         ProcessUtils.exec(projectDir, Cordova.build(project.mobileOS))
@@ -45,6 +60,10 @@ class AndroidAppBuilder : AbstractMobileAppBuilder() {
 
 }
 
+/**
+ * Type-Safe构建函数，用于调用[AndroidAppBuilder]
+ * @param init 初始化[AndroidAppBuilder]中的参数
+ */
 fun androidBuilder(init: AndroidAppBuilder.() -> Unit): AndroidAppBuilder {
     val androidAppBuilder = AndroidAppBuilder()
     androidAppBuilder.init()

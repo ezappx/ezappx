@@ -1,7 +1,6 @@
 package com.ezappx.web.services
 
 import com.ezappx.web.models.MobileAppProjectFile
-import com.ezappx.web.properties.FileStorageProperties
 import com.ezappx.web.repositories.MobileAppProjectFileRepository
 import com.mongodb.BasicDBObject
 import com.mongodb.MongoGridFSException
@@ -19,9 +18,6 @@ import org.springframework.stereotype.Service
 import org.springframework.util.DigestUtils
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 
 @Service
 class FileStorageService(

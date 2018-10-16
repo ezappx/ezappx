@@ -1,19 +1,18 @@
-<html lang='zh' xmlns:th='http://www.thymeleaf.org'>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel='stylesheet' type="text/css" href="http://cdn.ezappx.com/css/grapes.min.css">
-    <link rel='stylesheet' type="text/css" href="http://cdn.ezappx.com/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/grapes.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/designer.css}"/>
 
-    <script src="http://cdn.ezappx.com/js/grapes.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/jquery-3.3.1.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/popper.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/bootstrap.min.js"></script>
-
-    <script src="http://cdn.ezappx.com/js/grapesjs-blocks-basic.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/ezapp-plugin-ajax.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/ezapp-plugin-export.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/ezapp-plugin-weui.min.js"></script>
-    <script src="http://cdn.ezappx.com/js/ezapp-plugin-toolbar.min.js"></script>
+    <script th:src="@{/js/grapes.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ezapp-plugin-toolbar.min.js}"></script>
+    <script th:src="@{/js/ezapp-plugin-ajax.min.js}"></script>
+    <script th:src="@{/js/ezapp-plugin-export.min.js}"></script>
+    <script th:src="@{/js/ezapp-plugin-weui.min.js}"></script>
+    <script th:src="@{/js/ezapp-plugin-map.min.js}"></script>
     <title>Ezappx</title>
 </head>
 
@@ -23,48 +22,51 @@
 
 <script type="text/javascript" th:inline="javascript">
     const editor = grapesjs.init({
-        height: '100%',
+        height: "100%",
         showOffsets: 1,
         noticeOnUnload: 0,
         storageManager: {
-            id: 'gjs-',
-            type: 'local',
+            id: "gjs-",
+            type: "local",
             autosave: true,
             autoload: true,
             stepBeforeSave: 1
         },
-        container: '#gjs',
+        container: "#gjs",
         fromElement: true,
         plugins: [
-            'ezapp-plugin-ajax',
-            'gjs-blocks-basic',
-            'ezapp-plugin-export',
-            'ezapp-plugin-weui',
-            'ezapp-plugin-toolbar'],
+            "ezapp-plugin-ajax",
+            "ezapp-plugin-export",
+            "ezapp-plugin-weui",
+            "ezapp-plugin-toolbar",
+            "ezapp-plugin-map"],
         pluginsOpts: {
-            'ezapp-plugin-export': {
-                tipDivId: 'tip',
-                username: /*[[${username}]]*/ 'default-user',
-                projectName: /*[[${username}]]*/ 'default-project',
-                uploadApi: '/upload/projectFile',
-                exportApi: '/export/mobileAppProject'
+            "ezapp-plugin-export": {
+                tipDivId: "tip",
+                username: /*[[${username}]]*/ "default-user",
+                projectName: /*[[${username}]]*/ "default-project",
+                uploadApi: "/upload/projectFile",
+                exportApi: "/export/mobileAppProject"
             },
-            'ezapp-plugin-toolbar': {
-                tipDivId: 'tip',
-            }
+            "ezapp-plugin-toolbar": {
+                tipDivId: "tip",
+            },
+            "ezapp-plugin-map": {
+                tencentMapApiKey: "2VMBZ-JXJRP-A6MDS-VOUUP-7WKSH-ZNFXX"
+            },
         },
 
         canvas: {
-            styles: ['http://cdn.ezappx.com/css/weui.min.css'],
-            scripts: ['http://cdn.ezappx.com/js/jquery-3.3.1.min.js'],
+            styles: ["http://cdn.ezappx.com/css/weui.min.css"],
+            scripts: ["http://cdn.ezappx.com/js/jquery-3.3.1.min.js"],
         },
 
         assetManager: {
             upload: /*[[${uploadApi}]]*/ 0,
-            uploadName: 'files',
+            uploadName: "files",
             params: {
-                'username': /*[[${username}]]*/ 'default-user',
-                'projectName': /*[[${username}]]*/ 'default-project'
+                "username": /*[[${username}]]*/ "default-user",
+                "projectName": /*[[${username}]]*/ "default-project"
             }
         },
 
