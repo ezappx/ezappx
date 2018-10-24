@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document
  * @property cordovaPlugins Cordova插件名称
  * @property id 数据库ID
  */
-@ApiModel(value = "打包配置", description = "工程资源和相关配置")
+@ApiModel(value = "移动应用工程", description = "移动应用工程相关数据")
 @Document
 data class MobileAppProject(
         val username: String,

@@ -36,6 +36,7 @@ class MobileAppProjectService(
      * @param mobileAppProject 移动应用工程
      */
     fun saveMobileAppProject2DB(mobileAppProject: MobileAppProject) {
+        // TODO 区分android和ios数据，互相不覆盖
         val oldMobileAppProject = mobileAppProjectRepository.findByUsernameAndProjectName(mobileAppProject.username, mobileAppProject.projectName).firstOrNull()
         if (oldMobileAppProject != null) {
             // 更新数据库已有内容
@@ -93,18 +94,4 @@ class MobileAppProjectService(
             throw FileNotFoundException("file not found at $file")
         }
     }
-
-//    /**
-//     * 获取编译好的Android应用安装包
-//     * cordova-android@6.4 : platforms/android/build/outputs/apk/debug/android-debug.apk
-//     * @param username 用户名
-//     * @param projectName 工程名
-//     * @return Android应用安装包
-//     */
-//    fun androidAppUri(username: String, projectName: String): Path = Paths.get(
-//            userProjectDir.toAbsolutePath().toString()
-//            , username, projectName,
-//            "platforms", "android", "build", "outputs", "apk", "debug", "android-debug.apk")
-//
-//    // TODO 删除原有www文件夹内容
 }

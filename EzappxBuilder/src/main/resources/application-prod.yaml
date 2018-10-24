@@ -16,10 +16,6 @@ spring:
       port: 27017
       database: ezappx
 
-  devtools:
-    livereload:
-      enabled: false
-
 ezappx:
   builder:
     userProjectDirName: UserProjects

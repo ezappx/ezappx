@@ -1,7 +1,6 @@
-package com.ezappx.builder.services
+package com.ezappx.builder.utils
 
 import com.ezappx.builder.models.MobileAppProject
-import com.ezappx.builder.utils.ProcessUtils
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import java.nio.file.Path
@@ -44,7 +43,7 @@ abstract class AbstractMobileAppBuilder {
     /**
      * 编译完成后的应用安装包路径
      */
-    lateinit var appInstaller:String
+    lateinit var appInstaller: String
 
 
     /**

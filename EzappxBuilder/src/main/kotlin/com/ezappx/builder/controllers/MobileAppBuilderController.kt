@@ -2,8 +2,10 @@ package com.ezappx.builder.controllers
 
 import com.ezappx.builder.models.MobileAppProject
 import com.ezappx.builder.responses.MobileAppBuilderResponse
+import com.ezappx.builder.utils.iosAppBuilder
 import com.ezappx.builder.services.MobileAppProjectService
-import com.ezappx.builder.services.androidBuilder
+import com.ezappx.builder.utils.AbstractMobileAppBuilder
+import com.ezappx.builder.utils.androidBuilder
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -22,10 +24,10 @@ import java.nio.file.Paths
  */
 @CrossOrigin(origins = ["*"])
 @RestController
-@RequestMapping("/api/v1/android")
+@RequestMapping("/api/v1")
 class MobileAppBuilderController(@Autowired private val mobileAppProjectService: MobileAppProjectService) {
     private val log = LogFactory.getLog(MobileAppBuilderController::class.java)
-    private var appInstaller = ""
+    private var appBuilder: AbstractMobileAppBuilder? = null
 
     /**
      * 目前运行环境可编译的移动操作系统平台类型
@@ -36,36 +38,65 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
     fun availableMobileOS() = listOf("Android", "iOS") //TODO 根据目前操作系统自动适配
 
     /**
-     * 编译Android应用的接口
+     * 编译Android应用接口
      * @param mobileAppProject 移动应用工程
      * @return [MobileAppBuilderResponse]
      */
-    @ApiOperation(value = "编译Android安装包", notes = "生成移动应用安装包")
-    @ApiImplicitParam(name = "JSON文件", value = "移动应用工程")
-    @RequestMapping("/build", method = [RequestMethod.POST])
-    fun buildAndroidMobileApp(@RequestBody @ApiParam(name = "资源与配置", value = "JSON格式", required = true) mobileAppProject: MobileAppProject): MobileAppBuilderResponse {
+    @ApiOperation(value = "编译Android安装包", notes = "编译生成移动应用安装包")
+    @ApiImplicitParam(name = "mobileAppProject", value = "移动应用工程")
+    @RequestMapping("/android/build", method = [RequestMethod.POST])
+    fun buildAndroidMobileApp(@RequestBody @ApiParam(name = "移动应用工程", value = "JSON", required = true) mobileAppProject: MobileAppProject): MobileAppBuilderResponse {
         log.debug(mobileAppProject)
         mobileAppProjectService.saveMobileAppProject2DB(mobileAppProject)
         val userProjectDir = mobileAppProjectService.prepareMobileAppProjectDir(mobileAppProject)
 
         return try {
-            val builder = androidBuilder {
+            appBuilder = androidBuilder {
                 this.project = mobileAppProject
                 this.userProjectDir = userProjectDir
                 this.addResources = { mobileAppProjectService.createMobileAppProjectFiles(projectWWWDir, project) }
                 // TODO 应该放在配置文件或前端项目设置里，测试用4.3版本
                 this.androidMinSDK = "18"
             }
-            log.debug("apk: ${builder.appInstaller}")
-            appInstaller = builder.appInstaller
-            MobileAppBuilderResponse(status = "Start download ${builder.project.username} - ${builder.project.projectName} app installer ...",
-                    downloadUrl = "/android/download/${mobileAppProject.username}/${mobileAppProject.projectName}")
+            log.debug("android app installer : ${appBuilder?.appInstaller}")
+            MobileAppBuilderResponse(
+                    status = "Start download ${appBuilder?.project?.username} - ${appBuilder?.project?.projectName} app installer ...",
+                    downloadUrl = "/app/download/${mobileAppProject.username}/${mobileAppProject.projectName}")
         } catch (e: IOException) {
             log.error(e)
-            resetArgs()
             MobileAppBuilderResponse("can not init cordova project")
         }
     }
+
+    /**
+     * 编译iOS应用接口
+     * @param mobileAppProject 移动应用工程
+     * @return [MobileAppBuilderResponse]
+     */
+    @ApiOperation(value = "编译ios安装包", notes = "编译生成ios应用安装包")
+    @ApiImplicitParam(name = "mobileAppProject", value = "移动应用工程")
+    @RequestMapping("ios/build", method = [RequestMethod.POST])
+    fun buildIOSMobileApp(@RequestBody @ApiParam(name = "移动应用工程", value = "JSON", required = true) mobileAppProject: MobileAppProject): MobileAppBuilderResponse {
+        log.debug(mobileAppProject)
+        mobileAppProjectService.saveMobileAppProject2DB(mobileAppProject)
+        val userProjectDir = mobileAppProjectService.prepareMobileAppProjectDir(mobileAppProject)
+
+        return try {
+            appBuilder = iosAppBuilder {
+                this.project = mobileAppProject
+                this.userProjectDir = userProjectDir
+                this.addResources = { mobileAppProjectService.createMobileAppProjectFiles(projectWWWDir, project) }
+            }
+            log.debug("ios app installer : ${appBuilder?.appInstaller}")
+            MobileAppBuilderResponse(
+                    status = "Start download ${appBuilder?.project?.username} - ${appBuilder?.project?.projectName} app installer ...",
+                    downloadUrl = "/app/download/${mobileAppProject.username}/${mobileAppProject.projectName}")
+        } catch (e: IOException) {
+            log.error(e)
+            MobileAppBuilderResponse("can not init cordova project")
+        }
+    }
+
 
     /**
      * 下载文件的接口
@@ -73,20 +104,14 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
      * @param projectName 工程名
      * @return 文件类型的响应
      */
-    @GetMapping("/download/{username:.+}/{projectName:.+}")
-    fun downloadAndroidApp(@PathVariable username: String, @PathVariable projectName: String): ResponseEntity<Resource> {
-        val appResource = mobileAppProjectService.loadFileAsResource(Paths.get(appInstaller))
-        resetArgs()
+    @ApiOperation(value = "下载应用安装包", notes = "返回编译好的移动应用安装包数据")
+    @GetMapping("/app/download/{username:.+}/{projectName:.+}")
+    fun downloadAndroidApp(@PathVariable @ApiParam(name="username", value = "用户名") username: String,
+                           @PathVariable @ApiParam(name="projectName", value = "工程名") projectName: String): ResponseEntity<Resource> {
+        val appResource = mobileAppProjectService.loadFileAsResource(Paths.get(appBuilder?.appInstaller))
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + appResource.filename + "\"")
                 .body(appResource)
-    }
-
-    /**
-     * 重置[appInstaller]参数
-     */
-    private fun resetArgs() {
-        appInstaller = ""
     }
 }

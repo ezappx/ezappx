@@ -1,7 +1,5 @@
-package com.ezappx.builder.services
+package com.ezappx.builder.utils
 
-import com.ezappx.builder.utils.Cordova
-import com.ezappx.builder.utils.ProcessUtils
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 
@@ -53,7 +51,7 @@ class AndroidAppBuilder : AbstractMobileAppBuilder() {
     /**
      * 编译
      */
-    override fun build(){
+    override fun build() {
         debug("build app project")
         appInstaller = ProcessUtils.exec(projectDir, Cordova.build(project.mobileOS)).trim()
     }
