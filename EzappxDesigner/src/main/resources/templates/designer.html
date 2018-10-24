@@ -11,9 +11,10 @@
     <script th:src="@{/js/ezapp-plugin-toolbar.min.js}"></script>
     <script th:src="@{/js/ezapp-plugin-ajax.min.js}"></script>
     <script th:src="@{/js/ezapp-plugin-export.min.js}"></script>
-    <script th:src="@{/js/ezapp-plugin-weui.min.js}"></script>
-    <script th:src="@{/js/ezapp-plugin-map.min.js}"></script>
-    <title>Ezappx</title>
+    <script th:src="@{/js/ezappx-plugin-map.min.js}"></script>
+    <script th:src="@{/js/ezappx-plugin-framework7.min.js}"></script>
+
+    <title>Ezappx Designer</title>
 </head>
 
 <body>
@@ -37,9 +38,9 @@
         plugins: [
             "ezapp-plugin-ajax",
             "ezapp-plugin-export",
-            "ezapp-plugin-weui",
             "ezapp-plugin-toolbar",
-            "ezapp-plugin-map"],
+            "ezappx-plugin-map",
+            "ezappx-plugin-framework7"],
         pluginsOpts: {
             "ezapp-plugin-export": {
                 tipDivId: "tip",
@@ -51,14 +52,15 @@
             "ezapp-plugin-toolbar": {
                 tipDivId: "tip",
             },
-            "ezapp-plugin-map": {
+            "ezappx-plugin-map": {
                 tencentMapApiKey: "2VMBZ-JXJRP-A6MDS-VOUUP-7WKSH-ZNFXX"
             },
         },
 
         canvas: {
-            styles: ["http://cdn.ezappx.com/css/weui.min.css"],
-            scripts: ["http://cdn.ezappx.com/js/jquery-3.3.1.min.js"],
+            styles: ["http://cdn.ezappx.com/css/framework7.min.css"],
+            scripts: ["http://cdn.ezappx.com/js/jquery-3.3.1.min.js",
+                "http://cdn.ezappx.com/js/framework7.min.js"],
         },
 
         assetManager: {
@@ -74,6 +76,7 @@
             devices: [],
         }
     });
+    editor.setDevice('Android'); //TODO 应该由后台传入用户设置
     window.editor = editor;
 </script>
 </body>

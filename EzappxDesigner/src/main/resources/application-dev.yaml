@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9080
   use-forward-headers: true
 
 spring:
@@ -11,9 +11,6 @@ spring:
       host: 127.0.0.1
       port: 27017
       database: ezappx
-  devtools:
-    livereload:
-      enabled: false
 
 logging:
   level:
