@@ -2,10 +2,10 @@ package com.ezappx.builder.controllers
 
 import com.ezappx.builder.models.MobileAppProject
 import com.ezappx.builder.responses.MobileAppBuilderResponse
-import com.ezappx.builder.utils.iosAppBuilder
 import com.ezappx.builder.services.MobileAppProjectService
 import com.ezappx.builder.utils.AbstractMobileAppBuilder
 import com.ezappx.builder.utils.androidBuilder
+import com.ezappx.builder.utils.iosAppBuilder
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -106,12 +106,16 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
      */
     @ApiOperation(value = "下载应用安装包", notes = "返回编译好的移动应用安装包数据")
     @GetMapping("/app/download/{username:.+}/{projectName:.+}")
-    fun downloadAndroidApp(@PathVariable @ApiParam(name="username", value = "用户名") username: String,
-                           @PathVariable @ApiParam(name="projectName", value = "工程名") projectName: String): ResponseEntity<Resource> {
-        val appResource = mobileAppProjectService.loadFileAsResource(Paths.get(appBuilder?.appInstaller))
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + appResource.filename + "\"")
-                .body(appResource)
+    fun downloadAndroidApp(@PathVariable @ApiParam(name = "username", value = "用户名") username: String,
+                           @PathVariable @ApiParam(name = "projectName", value = "工程名") projectName: String): ResponseEntity<Resource> {
+        return if (appBuilder != null) {
+            val appResource = mobileAppProjectService.loadFileAsResource(Paths.get(appBuilder!!.appInstaller))
+            ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + appResource.filename + "\"")
+                    .body(appResource)
+        } else {
+            ResponseEntity.noContent().build()
+        }
     }
 }

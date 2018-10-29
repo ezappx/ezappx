@@ -1,74 +1,125 @@
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang='zh' xmlns:th='http://www.thymeleaf.org'>
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/grapes.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/designer.css}"/>
+    <link rel='stylesheet' type='text/css' th:href='@{/css/grapes.min.css}'>
+    <link rel='stylesheet' type='text/css' th:href='@{/css/bootstrap.min.css}'>
+    <link rel='stylesheet' type='text/css' th:href='@{/css/designer.css}'/>
 
-    <script th:src="@{/js/grapes.min.js}"></script>
-    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-    <script th:src="@{/js/ezapp-plugin-toolbar.min.js}"></script>
-    <script th:src="@{/js/ezapp-plugin-ajax.min.js}"></script>
-    <script th:src="@{/js/ezapp-plugin-export.min.js}"></script>
-    <script th:src="@{/js/ezappx-plugin-map.min.js}"></script>
-    <script th:src="@{/js/ezappx-plugin-framework7.min.js}"></script>
+    <script th:src='@{/js/grapes.min.js}'></script>
+    <script th:src='@{/js/jquery-3.3.1.min.js}'></script>
+    <script th:src='@{/js/popper.min.js}'></script>
+    <script th:src='@{/js/bootstrap.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-toolbar.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-ajaxdemo.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-export.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-f7.min.js}'></script>
+    <script src='https://cdn.jsdelivr.net/npm/ckeditor@4.9.2/ckeditor.js'></script>
+    <script th:src='@{/js/grapesjs-plugin-ckeditor.min.js}'></script>
 
     <title>Ezappx Designer</title>
 </head>
 
 <body>
-<div id="gjs"></div>
-<div id="tip"></div>
+<div id='gjs'></div>
 
-<script type="text/javascript" th:inline="javascript">
+<div id='tip'></div>
+
+<div id='clear-canvas' class='modal fade' tabindex='-1' role='dialog'>
+    <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title'>确认清除画布？</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal' id='cancle-clear-canvas'>取消
+                </button>
+                <button type='button' class='btn btn-primary' id='confirm-clear-canvas'>确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='display-about' class='modal fade' tabindex='-1' role='dialog'>
+    <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title'>Ezappx</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class='modal-body'>
+                <p>所得即所得（WYSIWYG）的移动应用开发环境</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' th:inline='javascript'>
     const editor = grapesjs.init({
-        height: "100%",
+        height: '100%',
         showOffsets: 1,
         noticeOnUnload: 0,
         storageManager: {
-            id: "gjs-",
-            type: "local",
+            id: 'gjs-',
+            type: 'local',
             autosave: true,
             autoload: true,
             stepBeforeSave: 1
         },
-        container: "#gjs",
+        container: '#gjs',
         fromElement: true,
+
         plugins: [
-            "ezapp-plugin-ajax",
-            "ezapp-plugin-export",
-            "ezapp-plugin-toolbar",
-            "ezappx-plugin-map",
-            "ezappx-plugin-framework7"],
+            'grapesjs-plugin-ckeditor',
+            'ezappx-plugin-ajaxdemo',
+            'ezappx-plugin-export',
+            'ezappx-plugin-toolbar',
+            'ezappx-plugin-map',
+            'ezappx-plugin-f7'],
+
         pluginsOpts: {
-            "ezapp-plugin-export": {
-                tipDivId: "tip",
-                username: /*[[${username}]]*/ "default-user",
-                projectName: /*[[${username}]]*/ "default-project",
-                uploadApi: "/upload/projectFile",
-                exportApi: "/export/mobileAppProject"
+            'ezappx-plugin-export': {
+                tipDivId: 'tip',
+                username: /*[[${username}]]*/ 'default-user',
+                projectName: /*[[${username}]]*/ 'default-project',
+                uploadApi: '/upload/projectFile',
+                exportApi: '/export/mobileAppProject'
             },
-            "ezapp-plugin-toolbar": {
-                tipDivId: "tip",
+
+            'ezappx-plugin-toolbar': {
+                clearCanvas: {
+                    id: '#clear-canvas',
+                    confirmBtnId: '#confirm-clear-canvas',
+                    cancleBtnId: '#cancle-clear-canvas'
+                },
+                displayAboutId: '#display-about',
             },
-            "ezappx-plugin-map": {
-                tencentMapApiKey: "2VMBZ-JXJRP-A6MDS-VOUUP-7WKSH-ZNFXX"
+
+            'ezappx-plugin-f7': {
+                appName: 'ezappx-test'
             },
+
+            'grapesjs-plugin-ckeditor': {}
         },
 
         canvas: {
-            styles: ["http://cdn.ezappx.com/css/framework7.min.css"],
-            scripts: ["http://cdn.ezappx.com/js/jquery-3.3.1.min.js",
-                "http://cdn.ezappx.com/js/framework7.min.js"],
+            styles: ['https://cdn.jsdelivr.net/npm/framework7@3.4.2/css/framework7.min.css'],
+            scripts: [
+                'https://cdn.jsdelivr.net/npm/framework7@3.4.2/js/framework7.min.js',
+                'https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js',
+                'https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js',
+                'https://cdn.jsdelivr.net/npm/stomp-websocket@2.3.4-next/lib/stomp.min.js'],
         },
 
         assetManager: {
             upload: /*[[${uploadApi}]]*/ 0,
-            uploadName: "files",
+            uploadName: 'files',
             params: {
-                "username": /*[[${username}]]*/ "default-user",
-                "projectName": /*[[${username}]]*/ "default-project"
+                'username': /*[[${username}]]*/ 'default-user',
+                'projectName': /*[[${username}]]*/ 'default-project'
             }
         },
 
@@ -76,7 +127,7 @@
             devices: [],
         }
     });
-    editor.setDevice('Android'); //TODO 应该由后台传入用户设置
+    editor.runCommand('set-device-android'); //TODO 应该由后台传入用户设置
     window.editor = editor;
 </script>
 </body>
