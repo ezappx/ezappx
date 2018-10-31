@@ -40,7 +40,7 @@ class FileStorageService(
     fun storeBinaryData2Db(username: String, projectName: String, file: MultipartFile): String {
         // 数据库存在相同文件时直接返回数据ID
         val sameFile = queryFileByMD5(calcMD5(file))
-        if (sameFile != null) {
+        if (sameFile !== null) {
             return sameFile.objectId.toString()
         }
 
@@ -60,7 +60,7 @@ class FileStorageService(
 
     fun loadBinaryData(fileId: String): GridFsResource {
         val file = gridFsOperations.findOne(Query.query(GridFsCriteria.where("_id").`is`(fileId)))
-        if (file != null) {
+        if (file !== null) {
             return GridFsResource(file, getGridFs().openDownloadStream(file.objectId))
         } else {
             throw MongoGridFSException("file $fileId not found")

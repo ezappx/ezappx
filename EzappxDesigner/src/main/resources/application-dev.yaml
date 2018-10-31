@@ -1,5 +1,5 @@
 server:
-  port: 9080
+  port: 8080
   use-forward-headers: true
 
 spring:
@@ -8,7 +8,7 @@ spring:
     location: banner.txt
   data:
     mongodb:
-      host: 127.0.0.1
+      host: 10.109.252.77
       port: 27017
       database: ezappx
 
@@ -25,4 +25,7 @@ ezappx:
   file:
     uploadApi: http://localhost:8080/upload/binaryData
     resourceApi: http://localhost:8080/resource/static
+  storage:
+    storeApi: http://localhost:8080/storage/store
+    loadApi: http://localhost:8080/storage/load
 

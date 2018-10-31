@@ -19,10 +19,13 @@ logging:
 
 ezappx:
   builder:
-    builderApi: http://10.109.252.77:8081/api/v1
-    androidBuilderApi: http://10.109.252.77:8081/api/v1/android/build
-    iosBuilderApi: http://10.109.252.77:8081/api/v1/iosBuilderApi/build
+    builderApi: http://build.ezappx.com/api/v1
+    androidBuilderApi: http://build.ezappx.com/api/v1/android/build
+    iosBuilderApi: http://build.ezappx.com/api/v1/iosBuilderApi/build
   file:
     uploadApi: http://www.ezappx.com/upload/binaryData
     resourceApi: http://www.ezappx.com/resource/static
+  storage:
+    storeApi: http://www.ezappx.com/storage/store
+    loadApi: http://www.ezappx.com/storage/load
 

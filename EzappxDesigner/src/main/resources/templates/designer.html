@@ -8,12 +8,13 @@
     <script th:src='@{/js/jquery-3.3.1.min.js}'></script>
     <script th:src='@{/js/popper.min.js}'></script>
     <script th:src='@{/js/bootstrap.min.js}'></script>
-    <script th:src='@{/js/ezappx-plugin-toolbar.min.js}'></script>
-    <script th:src='@{/js/ezappx-plugin-ajaxdemo.min.js}'></script>
-    <script th:src='@{/js/ezappx-plugin-export.min.js}'></script>
-    <script th:src='@{/js/ezappx-plugin-f7.min.js}'></script>
     <script src='https://cdn.jsdelivr.net/npm/ckeditor@4.9.2/ckeditor.js'></script>
     <script th:src='@{/js/grapesjs-plugin-ckeditor.min.js}'></script>
+
+    <script th:src='@{/js/ezappx-plugin-toolbar.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-es.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-export.min.js}'></script>
+    <script th:src='@{/js/ezappx-plugin-f7.min.js}'></script>
 
     <title>Ezappx Designer</title>
 </head>
@@ -64,20 +65,22 @@
         noticeOnUnload: 0,
         storageManager: {
             id: 'gjs-',
-            type: 'local',
+            contentTypeJson: true,
+            type: 'remote',
+            stepBeforeSave: 1,
+            urlStore: /*[[${storeApi}]]*/ 'no storage',
+            urlLoad: /*[[${loadApi}]]*/ 'no storage',
             autosave: true,
-            autoload: true,
-            stepBeforeSave: 1
+            autload: true,
         },
         container: '#gjs',
         fromElement: true,
 
         plugins: [
             'grapesjs-plugin-ckeditor',
-            'ezappx-plugin-ajaxdemo',
+            'ezappx-plugin-es',
             'ezappx-plugin-export',
             'ezappx-plugin-toolbar',
-            'ezappx-plugin-map',
             'ezappx-plugin-f7'],
 
         pluginsOpts: {
