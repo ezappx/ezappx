@@ -1,4 +1,2 @@
-#!/usr/bin/env bash
-
-sh ./deploy-builder.sh
-sh ./deploy-designer.sh
+bash ./deploy-builder.sh
+bash ./deploy-designer.sh

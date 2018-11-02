@@ -30,7 +30,7 @@ class ExportController(@Autowired private val exportService: ExportMobileAppServ
         })
 
         webAsyncTask.onCompletion {
-            log.debug("built app")
+            log.debug("build app")
         }
 
         webAsyncTask.onTimeout {

@@ -56,7 +56,7 @@ class MobileAppBuilderController(@Autowired private val mobileAppProjectService:
                 this.userProjectDir = userProjectDir
                 this.addResources = { mobileAppProjectService.createMobileAppProjectFiles(projectWWWDir, project) }
                 // TODO 应该放在配置文件或前端项目设置里，测试用4.3版本
-                this.androidMinSDK = "18"
+                this.androidMinSDK = "19"
             }
             log.debug("android app installer : ${appBuilder?.appInstaller}")
             MobileAppBuilderResponse(
