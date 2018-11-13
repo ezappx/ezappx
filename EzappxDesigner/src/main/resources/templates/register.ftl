@@ -1,13 +1,15 @@
+<#import "/spring.ftl" as spring />
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel='stylesheet' type='text/css' href='http://cdn.ezappx.com/css/bootstrap.min.css'>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/designer.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="/css/designer.css"/>
 
     <!--jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src='http://cdn.ezappx.com/js/jquery-3.3.1.min.js'></script>
+    <script src='http://cdn.ezappx.com/js/jquery.min.js'></script>
     <script src='http://cdn.ezappx.com/js/popper.min.js'></script>
     <script src='http://cdn.ezappx.com/js/bootstrap.min.js'></script>
 
@@ -22,29 +24,27 @@
                 Ezappx注册
             </div>
             <div class="card-body">
-                <form th:action="@{/register}" th:object="${user}" method="post" class="center-form">
+                <form action="/register" method="post" class="center-form">
                     <div class="form-group">
-                        <label for="loginUsername" >用户名</label>
-                        <input type="text" class="form-control" id="loginUsername" placeholder="输入用户名" th:field="*{username}">
+                        <label for="username">用户名</label>
+                        <input type="text" class="form-control" name="username" placeholder="输入用户名">
                     </div>
                     <div class="form-group">
-                        <label for="loginEmail">邮箱地址</label>
-                        <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="输入邮箱"
-                               th:field="*{email}">
+                        <label for="email">邮箱地址</label>
+                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="输入邮箱">
                         <small id="emailHelp" class="form-text text-muted">邮箱将被保密</small>
                     </div>
                     <div class="form-group">
-                        <label for="loginPassword" >密码</label>
-                        <input type="password" class="form-control" id="loginPassword" placeholder="输入密码"
-                               th:field="*{password}">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" name="password" placeholder="输入密码">
                     </div>
                     <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">同意Ezappx用户协议</label>
+                        <input type="checkbox" class="form-check-input" name="aggrement">
+                        <label class="form-check-label" for="aggrement">同意Ezappx用户协议</label>
                     </div>
                     <div class="row m-auto">
                         <button type="submit" class="btn btn-primary">注册</button>
-                        <a th:href="@{/login}" class="btn btn-secondary ml-3">返回登陆</a>
+                        <a th:href="/login" class="btn btn-secondary ml-3">返回登陆</a>
                     </div>
                 </form>
             </div>

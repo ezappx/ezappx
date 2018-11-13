@@ -1,11 +1,12 @@
-<html lang='zh' xmlns:th='http://www.thymeleaf.org'>
+<!DOCTYPE html>
+<html>
 <head>
     <link rel='stylesheet' type='text/css' href='http://cdn.ezappx.com/css/grapes.min.css'>
     <link rel='stylesheet' type='text/css' href='http://cdn.ezappx.com/css/bootstrap.min.css'>
-    <link rel='stylesheet' type='text/css' th:href='@{/css/designer.css}'/>
+    <link rel='stylesheet' type='text/css' href='/css/designer.css'/>
 
     <script src='http://cdn.ezappx.com/js/grapes.min.js'></script>
-    <script src='http://cdn.ezappx.com/js/jquery-3.3.1.min.js'></script>
+    <script src='http://cdn.ezappx.com/js/jquery.min.js '></script>
     <script src='http://cdn.ezappx.com/js/popper.min.js'></script>
     <script src='http://cdn.ezappx.com/js/bootstrap.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/ckeditor@4.9.2/ckeditor.js'></script>
@@ -34,8 +35,8 @@
             contentTypeJson: true,
             type: 'remote',
             stepBeforeSave: 1,
-            urlStore: /*[[${storeApi}]]*/ 'no storage',
-            urlLoad: /*[[${loadApi}]]*/ 'no storage',
+            urlStore: '${storeApi}',
+            urlLoad: '${loadApi}',
             autosave: false,
             autload: true,
         },
@@ -52,8 +53,8 @@
         pluginsOpts: {
             'ezappx-plugin-export': {
                 tipDivId: 'tip',
-                username: /*[[${username}]]*/ 'default-user',
-                projectName: /*[[${username}]]*/ 'default-project',
+                username: '${username}',
+                projectName: '${username}',
                 uploadApi: '/upload/projectFile',
                 exportApi: '/export/mobileAppProject'
             },
@@ -86,11 +87,11 @@
         },
 
         assetManager: {
-            upload: /*[[${uploadApi}]]*/ 0,
+            upload: '${uploadApi}',
             uploadName: 'files',
             params: {
-                'username': /*[[${username}]]*/ 'default-user',
-                'projectName': /*[[${username}]]*/ 'default-project'
+                'username': '${username}',
+                'projectName': '${username}'
             }
         },
 
