@@ -1,0 +1,33 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://10.109.252.210:5432/ezappxdev
+    username: ezappxdev
+    password: ezappxdev
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database: postgresql
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+logging:
+  level:
+    root: INFO
+    com.ezappx: DEBUG
+
+debug: false
+
+ezappx:
+  mobile:
+    builder:
+      project-dir-name: UserProjects
+      package-name-prefix: com.ezappx

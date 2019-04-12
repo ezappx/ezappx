@@ -1,4 +1,0 @@
-rootProject.name = 'Ezappx'
-include 'EzappxDesigner'
-include 'EzappxBuilder'
-
