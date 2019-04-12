@@ -12,7 +12,7 @@ spring:
     location: banner.txt
   data:
     mongodb:
-      host: 10.109.252.77
+      host: 10.109.252.210
       port: 27017
       database: ezappx
 

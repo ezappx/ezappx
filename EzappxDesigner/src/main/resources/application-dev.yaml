@@ -8,7 +8,7 @@ spring:
     location: banner.txt
   data:
     mongodb:
-      host: 10.109.252.77
+      host: 10.109.252.210
       port: 27017
       database: ezappx
 
@@ -19,13 +19,14 @@ logging:
 
 ezappx:
   builder:
-    builderApi: http://localhost:8081/api/v1
-    androidBuilderApi: http://localhost:8081/api/v1/android/build
-    iosBuilderApi: http://localhost:8081/api/v1/iosBuilderApi/build
+    builderApi: http://build.ezappx.com/api/v1
+    androidBuilderApi: http://build.ezappx.com/api/v1/android/build
+    iosBuilderApi: http://build.ezappx.com/api/v1/iosBuilderApi/build
   file:
-    uploadApi: http://localhost:8080/upload/binaryData
-    resourceApi: http://localhost:8080/resource/static
+    uploadApi: http://www.ezappx.com/upload/binaryData
+    resourceApi: http://www.ezappx.com/resource/static
   storage:
-    storeApi: http://localhost:8080/storage/store
-    loadApi: http://localhost:8080/storage/load
+    storeApi: http://www.ezappx.com/storage/store
+    loadApi: http://www.ezappx.com/storage/load
+
 
